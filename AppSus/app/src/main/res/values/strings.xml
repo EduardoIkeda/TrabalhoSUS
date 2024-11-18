@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">AppSus</string>
+    <string name="app_name">Aplicativo SUS</string>
+
+    <!-- Botões -->
+    <string name="login">Entrar</string>
+    <string name="register">Cadastrar</string>
+    
+    <!-- Cadastro / Login -->
+    <string name="name">Nome</string>
+    <string name="sus_card_number">Número do cartão SUS</string>
+    <string name="address">Endereço</string>
+    <string name="password">Senha</string>
+    <string name="confirm_password">Confirmar Senha</string>
+    <string name="forgot_password">Esqueci minha senha</string>
+
+    <!-- Titulos de tela -->
+    <string name="login_title">Entrar</string>
+    <string name="register_title">Preencha seus dados</string>
 </resources>

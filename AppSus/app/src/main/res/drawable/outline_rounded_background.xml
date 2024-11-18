@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Borda arredondada com raio de 8dp -->
+    <corners android:radius="8dp"/>
+    <!-- Contorno com espessura de 2dp e cor preta -->
+    <stroke android:width="3dp" android:color="#000000"/>
+    <!-- Preenchimento transparente -->
+    <solid android:color="@android:color/transparent"/>
+</shape>
