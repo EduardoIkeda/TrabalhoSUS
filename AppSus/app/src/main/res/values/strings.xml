@@ -9,6 +9,7 @@
     <string name="name">Nome</string>
     <string name="sus_card_number">Número do cartão SUS</string>
     <string name="address">Endereço</string>
+    <string name="cpf">CPF</string>
     <string name="password">Senha</string>
     <string name="confirm_password">Confirmar Senha</string>
     <string name="forgot_password">Esqueci minha senha</string>

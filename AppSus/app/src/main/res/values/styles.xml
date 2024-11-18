@@ -43,13 +43,14 @@
     </style>
 
     <style name="TextViewTitleStyle">
-    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_width">310dp</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_marginStart">145dp</item>
     <item name="android:layout_marginTop">136dp</item>
     <item name="android:layout_marginEnd">145dp</item>
     <item name="android:text">Login</item>
-    <item name="android:textAlignment">gravity</item>
+    <item name="android:textAlignment">center</item>
+    <item name="android:textColor">@color/black</item>
     <item name="android:textSize">48sp</item>
     <item name="android:textStyle">bold</item>
 </style>
