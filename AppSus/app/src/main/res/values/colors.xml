@@ -11,4 +11,6 @@
 
     <color name="green">#5be0ac</color>
     <color name="warning">#d84c4c</color>
+
+    <color name="transparent">#00000000</color>
 </resources>
