@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:hint="@string/sus_card_number">
+            android:hint="@string/numero_cartao_sus">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextNumeroCartaoSus"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:hint="@string/address">
+            android:hint="@string/endereco">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextAddress"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:hint="@string/password">
+            android:hint="@string/senha">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPassword"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:hint="@string/confirm_password">
+            android:hint="@string/confirmacao_senha">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextConfirmPassword"
@@ -92,7 +92,7 @@
         android:layout_marginTop="44dp"
         android:layout_marginEnd="125dp"
         android:layout_marginBottom="64dp"
-        android:text="@string/register"
+        android:text="@string/cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -103,7 +103,7 @@
         android:id="@+id/textViewTitle"
         style="@style/TextViewTitleStyle"
         android:layout_marginTop="32dp"
-        android:text="@string/register_title"
+        android:text="@string/cadastro_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"

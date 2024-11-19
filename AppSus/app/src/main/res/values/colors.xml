@@ -10,4 +10,5 @@
     <color name="light_blue_gray">#eef2fa</color>
 
     <color name="green">#5be0ac</color>
+    <color name="warning">#d84c4c</color>
 </resources>

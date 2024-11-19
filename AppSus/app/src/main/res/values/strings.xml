@@ -2,19 +2,45 @@
     <string name="app_name">Aplicativo SUS</string>
 
     <!-- Botões -->
-    <string name="login">Entrar</string>
-    <string name="register">Cadastrar</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="agendar">Agendar</string>
     
     <!-- Cadastro / Login -->
-    <string name="name">Nome</string>
-    <string name="sus_card_number">Número do cartão SUS</string>
-    <string name="address">Endereço</string>
+    <string name="nome">Nome</string>
+    <string name="numero_cartao_sus">Número do cartão SUS</string>
+    <string name="endereco">Endereço</string>
     <string name="cpf">CPF</string>
-    <string name="password">Senha</string>
-    <string name="confirm_password">Confirmar Senha</string>
-    <string name="forgot_password">Esqueci minha senha</string>
+    <string name="senha">Senha</string>
+    <string name="confirmacao_senha">Confirmar Senha</string>
+    <string name="esqueceu_senha">Esqueci minha senha</string>
 
     <!-- Titulos de tela -->
-    <string name="login_title">Entrar</string>
-    <string name="register_title">Preencha seus dados</string>
+    <string name="entrar_title">Entrar</string>
+    <string name="cadastro_title">Preencha seus dados</string>
+    <string name="editar_dados_title">Preencha seus dados</string>
+
+    <string name="consulta_title">Suas Consultas</string>
+    <string name="especialidade_title">Selecione a especialidade</string>
+    <string name="posto_saude_title">Selecione o posto de saúde</string>
+    <string name="data_title">Selecione a data</string>
+    <string name="horario_title">Selecione o horário</string>
+    <string name="confirmacao_title">Confirmação</string>
+
+    <!-- Mensagens -->
+    <string name="consulta_agendada_sucesso">Consulta agendada com sucesso!</string>
+    <string name="consulta_cancelada_sucesso">Consulta cancelada com sucesso!</string>
+    
+    <string name="consulta_cancelada_erro">Erro ao cancelar consulta!</string>
+    <string name="consulta_agendada_erro">Erro ao agendar consulta!</string>
+
+    <string name="consulta_reagendada_sucesso">Consulta reagendada com sucesso!</string>
+    <string name="consulta_reagendada_erro">Erro ao reagendar consulta!</string>
+
+    <!-- Consulta -->
+    <string name="ola">"Olá, "</string>
+
+    <!-- Posto Saude -->
+    <string name="disponiveis">Disponíveis</string>
+    <string name="vagas">Vagas</string>
 </resources>
