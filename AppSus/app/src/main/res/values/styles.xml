@@ -61,35 +61,41 @@
     </style>
 
     <!-- TextView -->
-    <style name="TextViewTitleStyle">
-        <item name="android:layout_width">310dp</item>
+    <style name="BaseTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <style name="TextViewTitleStyle" parent="BaseTextViewStyle">
+        <item name="android:layout_width">310dp</item>
         <item name="android:layout_marginStart">145dp</item>
         <item name="android:layout_marginTop">136dp</item>
         <item name="android:layout_marginEnd">145dp</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:textSize">48sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextViewHeaderStyle">
-        <item name="android:textAlignment">center</item>
+    <style name="TextViewHeaderStyle" parent="BaseTextViewStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextViewSmallStyle">
-        <item name="android:textAlignment">center</item>
+    <style name="TextViewSmallStyle" parent="BaseTextViewStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">11sp</item>
     </style>
+
+    <style name="TextViewSmallStyle" parent="BaseTextViewStyle">
+        <item name="android:textSize">11sp</item>
+    </style>
     
-    <style name="TextViewLargeStyle">
-        <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">22sp</item>
+    <style name="TextViewLargeStyle" parent="BaseTextViewStyle">
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.MaterialComponents.Circle">

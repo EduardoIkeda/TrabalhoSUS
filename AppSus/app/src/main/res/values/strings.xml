@@ -5,6 +5,8 @@
     <string name="entrar">Entrar</string>
     <string name="cadastrar">Cadastrar</string>
     <string name="agendar">Agendar</string>
+    <string name="voltar_inicio">Voltar ao início</string>
+    <string name="confirmar">Confirmar</string>
     
     <!-- Cadastro / Login -->
     <string name="nome">Nome</string>
@@ -43,4 +45,11 @@
     <!-- Posto Saude -->
     <string name="disponiveis">Disponíveis</string>
     <string name="vagas">Vagas</string>
+
+    <!-- Confirmacao -->
+    <string name="especialidade">Especialidade</string>
+    <string name="medico">Médico</string>
+    <string name="posto_saude">Posto de Saúde</string>
+    <string name="data">Data e hora</string>
+
 </resources>
