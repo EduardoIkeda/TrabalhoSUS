@@ -41,24 +41,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         app:layout_constraintVertical_bias="0.0">
 
-        <!-- Exemplo dos botões de especialidade -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonEspecialidade"
-            style="@style/OutlineButtonStyle"
-            android:layout_marginBottom="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="Clínico geral"
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonEspecialidade2"
-            style="@style/OutlineButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_height="55dp"
-            android:text="Clínico geral"
-            />
 
 
     </LinearLayout>

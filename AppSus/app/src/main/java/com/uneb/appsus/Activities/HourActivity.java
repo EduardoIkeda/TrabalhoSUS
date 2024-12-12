@@ -62,6 +62,7 @@ public class HourActivity extends AppCompatActivity {
                         intent.putExtra("hour", button.getText());
                         String healthCenter = getIntent().getStringExtra("healthCenter");
                         intent.putExtra("healthCenter", healthCenter);
+                        intent.putExtra("speciality", getIntent().getStringExtra("speciality"));
                         startActivity(intent);
                     }
                 });

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Ortopedista",
+    "description": "medico que cuida de pés"
+  },
+  {
+    "id": 2,
+    "name": "Endocrino",
+    "description": "Cuida de exames"
+  },
+  {
+    "id": 3,
+    "name": "Psiquiatra",
+    "description": "cuida da mente"
+  }
+]

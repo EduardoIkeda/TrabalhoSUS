@@ -12,10 +12,12 @@
     <string name="nome">Nome</string>
     <string name="numero_cartao_sus">Número do cartão SUS</string>
     <string name="endereco">Endereço</string>
-    <string name="cpf">CPF</string>
+    <string name="cpf">cpf</string>
     <string name="senha">Senha</string>
     <string name="confirmacao_senha">Confirmar Senha</string>
     <string name="esqueceu_senha">Esqueci minha senha</string>
+    <string name="phone">Telefone</string>
+    <string name="email">Email</string>
 
     <!-- Titulos de tela -->
     <string name="entrar_title">Entrar</string>

@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="300dp"
-        android:layout_height="320dp"
+        android:layout_height="400dp"
         android:layout_marginTop="28dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,10 +47,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:hint="@string/endereco">
+            android:hint="@string/nome">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextAddress"
+                android:id="@+id/editTextName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:hint="@string/phone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPhone"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:hint="@string/email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextEmail"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -91,7 +117,7 @@
         android:layout_marginStart="125dp"
         android:layout_marginTop="44dp"
         android:layout_marginEnd="125dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

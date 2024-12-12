@@ -2,6 +2,7 @@ package com.uneb.appsus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,12 +10,15 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.uneb.appsus.Activities.ConsultasActivity;
 import com.uneb.appsus.Activities.RegisterUserActivity;
+import com.uneb.appsus.Client.UserClient;
+import com.uneb.appsus.DTO.UserDTO;
+import com.uneb.appsus.Manager.TokenManager;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,20 +26,17 @@ public class MainActivity extends AppCompatActivity {
     protected EditText passwordText;
     protected Button registerButton;
     protected Button loginButton;
-
+    private ExecutorService executorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
 
-        registerButton = (Button) findViewById(R.id.buttonRegister);
+        executorService = Executors.newSingleThreadExecutor();
+
+        registerButton = findViewById(R.id.buttonRegister);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,23 +45,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loginButton = (Button) findViewById(R.id.buttonLogin);
+        loginButton = findViewById(R.id.buttonLogin);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                susNumberText = (EditText) findViewById(R.id.editTextNumeroCartaoSus);
-                passwordText = (EditText) findViewById(R.id.editTextPassword);
+                susNumberText = findViewById(R.id.editTextNumeroCartaoSus);
+                passwordText = findViewById(R.id.editTextPassword);
                 String susNumber = susNumberText.getText().toString();
                 String password = passwordText.getText().toString();
-                if (susNumber.equals("123456") && password.equals("123456")) {
-                    Intent intent = new Intent(MainActivity.this, ConsultasActivity.class);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(MainActivity.this, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();
-                }
+
+                UserDTO user = new UserDTO();
+                user.setSusCardNumber(susNumber);
+                user.setPassword(password);
+
+                executorService.submit(() -> {
+                    UserClient userClient = new UserClient(MainActivity.this);
+                    String token = userClient.loginUser(user);
+
+                    runOnUiThread(() -> {
+                        if (token != null) {
+                            TokenManager.getInstance(MainActivity.this).setBearerToken(token);
+                            Intent intent = new Intent(MainActivity.this, ConsultasActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                });
             }
         });
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
     }
 }

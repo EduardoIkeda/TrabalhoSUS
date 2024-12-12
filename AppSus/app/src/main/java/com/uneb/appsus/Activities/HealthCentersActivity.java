@@ -44,6 +44,7 @@ public class HealthCentersActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(HealthCentersActivity.this, HourActivity.class);
                     intent.putExtra("healthCenter", healthCenter.getName());
+                    intent.putExtra("speciality", getIntent().getStringExtra("speciality"));
                     startActivity(intent);
                 }
             });
