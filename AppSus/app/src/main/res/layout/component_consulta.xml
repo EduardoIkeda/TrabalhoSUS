@@ -45,13 +45,13 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/buttonCancel"
+            android:id="@+id/buttonReschedule"
             style="@style/SquaredButtonStyle"
             android:layout_margin="12dp"
             app:srcCompat="@drawable/schedule" />
 
         <ImageButton
-            android:id="@+id/buttonReschedule"
+            android:id="@+id/buttonCancel"
             style="@style/SquaredButtonStyle"
             android:backgroundTint="@color/warning"
             app:srcCompat="@drawable/cross" />

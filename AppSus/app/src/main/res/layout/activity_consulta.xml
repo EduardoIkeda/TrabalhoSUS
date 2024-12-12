@@ -106,8 +106,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:style="@style/ButtonStyle"
+        android:id="@+id/bookingButton"
         android:layout_width="200dp"
         android:layout_height="62dp"
         android:text="@string/agendar"

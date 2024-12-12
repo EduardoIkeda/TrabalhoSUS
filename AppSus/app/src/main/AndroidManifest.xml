@@ -21,6 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.RegisterUserActivity"></activity>
+        <activity android:name=".Activities.ConsultasActivity"></activity>
+        <activity android:name=".Activities.SpecialitiesActivity"></activity>
+        <activity android:name=".Activities.HealthCentersActivity"></activity>
+        <activity android:name=".Activities.HourActivity"></activity>
+        <activity android:name=".Activities.AppointmentConfirmationActivity"></activity>
+
     </application>
 
 </manifest>
