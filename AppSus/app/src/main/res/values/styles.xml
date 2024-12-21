@@ -89,18 +89,9 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">11sp</item>
     </style>
-
-    <style name="TextViewSmallStyle" parent="BaseTextViewStyle">
-        <item name="android:textSize">11sp</item>
-    </style>
     
     <style name="TextViewLargeStyle" parent="BaseTextViewStyle">
         <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.MaterialComponents.Circle">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

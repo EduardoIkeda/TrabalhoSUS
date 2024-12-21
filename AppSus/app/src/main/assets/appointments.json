@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "appointmentDateTime": "18/05/2025 02:03",
+    "appointmentStatus": "Marcado"
+  },
+  {
+    "id": 2,
+    "appointmentDateTime": "18/05/2025 02:03",
+    "appointmentStatus": "Concluido"
+  },
+  {
+    "id": 3,
+    "appointmentDateTime": "18/05/2025 02:03",
+    "appointmentStatus": "Cancelado"
+  },
+  {
+    "id": 4,
+    "appointmentDateTime": "18/05/2025 02:03",
+    "appointmentStatus": "Marcado"
+  },
+  {
+    "id": 5,
+    "appointmentDateTime": "18/05/2025 02:03",
+    "appointmentStatus": "Marcado"
+  }
+]

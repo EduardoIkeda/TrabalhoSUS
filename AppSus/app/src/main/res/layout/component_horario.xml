@@ -40,11 +40,11 @@
                 />
 
             <LinearLayout
+                android:id="@+id/hoursLayout"
                 android:layout_width="match_parent"
                 android:layout_height="67dp"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                >
+                android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button2"
