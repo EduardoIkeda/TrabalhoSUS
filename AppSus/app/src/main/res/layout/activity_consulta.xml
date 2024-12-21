@@ -52,16 +52,16 @@
                 android:id="@+id/textViewOla"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:style="@style/TextViewLargeStyle"
-                android:text="@string/ola" />
+                android:text="@string/ola"/>
 
             <TextView
-                android:style="@style/TextViewLargeStyle"
+                
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fulano" />
+                android:text="Fulano"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </LinearLayout>
@@ -74,13 +74,13 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="30dp"
         android:text="@string/consulta_title"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintBottom_toTopOf="@+id/appointmentContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/appointmentContainer"
         android:layout_width="409dp"
         android:layout_height="380dp"
         android:orientation="vertical"
@@ -113,7 +113,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/appointmentContainer"
         app:layout_constraintVertical_bias="0.333" />
 
 
