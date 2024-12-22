@@ -1,4 +1,8 @@
 package com.uneb.appsus.Client;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.Callable;
 
 import android.content.Context;
 import android.util.Log;
@@ -21,8 +25,33 @@ public class AppointmentsClient extends BaseClient {
 
     private static final String APPOINTMENTS_URL = "/appointments";
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     public AppointmentsClient(Context context) {
         super(context);
+    }
+
+    public class AppointmentResult {
+        private final boolean success;
+        private final String response;
+        private final Exception exception;
+
+        public AppointmentResult(boolean success, String response, Exception exception) {
+            this.success = success;
+            this.response = response;
+            this.exception = exception;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public Exception getException() {
+            return exception;
+        }
     }
 
     public List<AppointmentDTO> getAppointments() {
@@ -41,18 +70,26 @@ public class AppointmentsClient extends BaseClient {
         return null;
     }
 
-    public void createAppointment(AppointmentDTO appointment){;
-        Gson gson = new Gson();
-        String json = gson.toJson(appointment);
-        RequestBody body = RequestBody.create(json, JSON);
-        Request request = this.postRequest(body, APPOINTMENTS_URL);
+    public Future<AppointmentResult> createAppointment(AppointmentDTO appointment) {
+        return executorService.submit(new Callable<AppointmentResult>() {
+            @Override
+            public AppointmentResult call() {
+                Gson gson = new Gson();
+                String json = gson.toJson(appointment);
+                RequestBody body = RequestBody.create(json, JSON);
+                Request request = postRequest(body, APPOINTMENTS_URL);
 
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                String responseBody = response.body().string();
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String responseBody = response.body().string();
+                        return new AppointmentResult(true, responseBody, null);
+                    } else {
+                        return new AppointmentResult(false, null, new IOException("Unexpected code " + response));
+                    }
+                } catch (IOException e) {
+                    return new AppointmentResult(false, null, e);
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 }

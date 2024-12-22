@@ -35,6 +35,8 @@ public class ConsultasActivity extends AppCompatActivity {
         appointmentsContainer = findViewById(R.id.appointmentContainer);
         executorService = Executors.newSingleThreadExecutor();
 
+        appointmentsContainer.removeAllViews();
+
         bookingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
