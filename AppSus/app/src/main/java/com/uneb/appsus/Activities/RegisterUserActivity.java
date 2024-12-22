@@ -53,17 +53,52 @@ public class RegisterUserActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!editTextPassword.getText().toString().equals(editTextPasswordConfirmation.getText().toString())){
-                    Toast.makeText(RegisterUserActivity.this, "As senhas não conferem", Toast.LENGTH_SHORT).show();
+                String password = editTextPassword.getText().toString();
+                String name = editTextName.getText().toString();
+                String phone = editTextPhone.getText().toString();
+                String cpf = editTextCPF.getText().toString();
+                String susCard = editTextSUSCard.getText().toString();
+                String email = editTextEmail.getText().toString();
+
+                if(!isNameValid()){
+                    Toast.makeText(RegisterUserActivity.this, "O nome deve ter entre 6 e 100 caracteres", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if(!isPhoneValid()){
+                    Toast.makeText(RegisterUserActivity.this, "O telefone deve ter entre 10 e 13 caracteres", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!isPasswordValid() ){
+                    Toast.makeText(RegisterUserActivity.this, "Senha inválida", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!isCPFValid()){
+                    Toast.makeText(RegisterUserActivity.this, "CPF inválido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!isSUSCardValid()){
+                    Toast.makeText(RegisterUserActivity.this, "Cartão SUS inválido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(!isEmailValid() ){
+                    Toast.makeText(RegisterUserActivity.this, "Email inválido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+
                 UserDTO userDTO = new UserDTO();
-                userDTO.setName(editTextName.getText().toString());
-                userDTO.setPhone(editTextPhone.getText().toString());
-                userDTO.setPassword(editTextPassword.getText().toString());
-                userDTO.setSusCardNumber(editTextSUSCard.getText().toString());
-                userDTO.setCpf(editTextCPF.getText().toString());
-                userDTO.setEmail(editTextEmail.getText().toString());
+                userDTO.setName(name);
+                userDTO.setPhone(phone);
+                userDTO.setPassword(password);
+                userDTO.setSusCardNumber(susCard);
+                userDTO.setCpf(cpf);
+                userDTO.setEmail(email);
 
                 executorService.submit(() -> {
                     UserClient userClient = new UserClient(RegisterUserActivity.this);
@@ -83,6 +118,94 @@ public class RegisterUserActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean isNameValid(){
+        String name = editTextName.getText().toString();
+        if(!isTextMinSize(6, name)){
+            return false;
+        }
+
+        if(!isTextMaxSize(100, name)){
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isPhoneValid(){
+        String phone = editTextPhone.getText().toString();
+
+        if(!isTextMinSize(10, phone)){
+            return false;
+        }
+
+        if(!isTextMaxSize(13, phone)){
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isPasswordValid() {
+        String password = editTextPassword.getText().toString();
+        String passwordConfirmation = editTextPasswordConfirmation.getText().toString();
+
+        if (!password.equals(passwordConfirmation)) {
+            return false;
+        }
+
+        if (!isTextMinSize(6, password)) {
+            return false;
+        }
+
+        if (!isTextMaxSize(100, password)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isCPFValid(){
+        String cpf = editTextCPF.getText().toString();
+
+        if(cpf.length() != 11){
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isSUSCardValid(){
+        String susCard = editTextSUSCard.getText().toString();
+
+        if(susCard.length() != 15){
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isEmailValid(){
+        String email = editTextEmail.getText().toString();
+
+        if(!isTextMinSize(6, email)){
+            return false;
+        }
+
+        if(!isTextMaxSize(100, email)){
+            return false;
+        }
+
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isTextMinSize(int min, String text){
+        return text.length() >= min;
+    }
+
+    private boolean isTextMaxSize(int max, String text){
+        return text.length() <= max;
     }
 
     @Override
