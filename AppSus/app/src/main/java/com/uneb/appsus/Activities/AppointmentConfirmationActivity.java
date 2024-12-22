@@ -57,6 +57,7 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
                 Date date = new Date();
                 String formattedDate = formatter.format(date);
 
+                // Formato aceito pelo backend no json é "20/08/2023 10:00"
                 newAppointment.setAppointmentDateTime(formattedDate+ " " + hour);
                 AppointmentsClient appointmentsClient = new AppointmentsClient(AppointmentConfirmationActivity.this);
                 appointmentsClient.createAppointment(newAppointment);

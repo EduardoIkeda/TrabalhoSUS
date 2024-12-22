@@ -55,7 +55,6 @@
                 android:text="@string/ola"/>
 
             <TextView
-                
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,36 +73,30 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="30dp"
         android:text="@string/consulta_title"
-        app:layout_constraintBottom_toTopOf="@+id/appointmentContainer"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-    <LinearLayout
-        android:id="@+id/appointmentContainer"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="409dp"
         android:layout_height="380dp"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle">
 
-        <!-- Examplo, precisa ser removido depois da implementação -->
+        <LinearLayout
+            android:id="@+id/appointmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-        <include
-            layout="@layout/component_consulta"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            />
+        </LinearLayout>
+    </ScrollView>
 
-        <include
-            layout="@layout/component_consulta"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bookingButton"
@@ -113,7 +106,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentContainer"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView"
         app:layout_constraintVertical_bias="0.333" />
 
 
