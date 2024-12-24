@@ -53,5 +53,7 @@
     <string name="medico">Médico</string>
     <string name="posto_saude">Posto de Saúde</string>
     <string name="data">Data e hora</string>
+    <string name="selecionar_data">Selecionar data</string>
+    <string name="continuar">Continuar</string>
 
 </resources>

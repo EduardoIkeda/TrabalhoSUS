@@ -99,6 +99,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        style="@style/SquaredButtonStyle"
         android:id="@+id/bookingButton"
         android:layout_width="200dp"
         android:layout_height="62dp"

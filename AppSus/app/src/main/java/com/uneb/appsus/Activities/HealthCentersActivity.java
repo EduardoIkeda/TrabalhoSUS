@@ -42,7 +42,7 @@ public class HealthCentersActivity extends AppCompatActivity {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(HealthCentersActivity.this, HourActivity.class);
+                    Intent intent = new Intent(HealthCentersActivity.this, DateActivity.class);
                     intent.putExtra("healthCenter", healthCenter.getName());
                     intent.putExtra("speciality", getIntent().getStringExtra("speciality"));
                     startActivity(intent);

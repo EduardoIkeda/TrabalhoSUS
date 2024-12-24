@@ -36,6 +36,7 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         String hour = getIntent().getStringExtra("hour");
         String healthCenter = getIntent().getStringExtra("healthCenter");
         String speciality = getIntent().getStringExtra("speciality");
+        String date = getIntent().getStringExtra("date");
 
         textViewDoctorName = findViewById(R.id.textViewMedico);
         textViewHour = findViewById(R.id.textViewDataHora);
@@ -43,8 +44,8 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         textViewSpecialty = findViewById(R.id.textViewEspecialidade);
         confirmButton = findViewById(R.id.buttonConfirm);
 
-        textViewDoctorName.setText(doctorName);
-        textViewHour.setText(hour);
+        textViewDoctorName.setText("Dr. " + doctorName);
+        textViewHour.setText(date + " " + hour);
         textViewHealthCenter.setText(healthCenter);
         textViewSpecialty.setText(speciality);
 
@@ -53,12 +54,9 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AppointmentDTO newAppointment = new AppointmentDTO();
                 newAppointment.setAppointmentStatus("scheduled");
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = new Date();
-                String formattedDate = formatter.format(date);
 
                 // Formato aceito pelo backend no json é "20/08/2023 10:00"
-                newAppointment.setAppointmentDateTime(formattedDate+ " " + hour);
+                newAppointment.setAppointmentDateTime(date + " às " + hour);
                 AppointmentsClient appointmentsClient = new AppointmentsClient(AppointmentConfirmationActivity.this);
                 appointmentsClient.createAppointment(newAppointment);
 
