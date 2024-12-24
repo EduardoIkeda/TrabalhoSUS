@@ -1,4 +1,5 @@
 package com.uneb.appsus.Client;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -28,6 +29,7 @@ public class AppointmentsClient extends BaseClient {
     private static final String APPOINTMENTS_URL = "/appointments";
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     public AppointmentsClient(Context context) {
         super(context);
     }
@@ -59,13 +61,14 @@ public class AppointmentsClient extends BaseClient {
     public List<AppointmentDisplayDTO> getAppointments() {
         String userId = TokenManager.getInstance(context).getUserId();
         Log.d("AppointmentsClient", "User ID: " + userId);
-        Request request = this.baseRequest("/appointments/by-user/" + userId);
-    
+        Request request = this.baseRequest(APPOINTMENTS_URL + "/by-user/" + userId);
+
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
                 String json = response.body().string();
                 Gson gson = new Gson();
-                Type listType = new TypeToken<List<AppointmentDisplayDTO>>() {}.getType();
+                Type listType = new TypeToken<List<AppointmentDisplayDTO>>() {
+                }.getType();
                 Log.d("AppointmentsClient", "Response: " + json);
                 return gson.fromJson(json, listType);
             }

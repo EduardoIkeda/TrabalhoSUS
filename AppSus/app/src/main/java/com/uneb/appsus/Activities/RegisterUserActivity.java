@@ -91,8 +91,6 @@ public class RegisterUserActivity extends AppCompatActivity {
                     return;
                 }
 
-
-
                 UserDTO userDTO = new UserDTO();
                 userDTO.setName(name);
                 userDTO.setPhone(phone);
