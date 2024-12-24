@@ -58,15 +58,12 @@ public class HourActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(HourActivity.this, AppointmentConfirmationActivity.class);
-                        String healthCenter = getIntent().getStringExtra("healthCenter");
-                        intent.putExtra("healthCenter", healthCenter);
-                        intent.putExtra("speciality", getIntent().getStringExtra("speciality"));
-                        String date = getIntent().getStringExtra("date");
+                        intent.putExtra("healthCenter", getIntent().getSerializableExtra("healthCenter"));
+                        intent.putExtra("speciality", getIntent().getSerializableExtra("speciality"));
+                        intent.putExtra("date", getIntent().getStringExtra("date"));
 
-                        intent.putExtra("doctorName", doctor.getName());
+                        intent.putExtra("doctorName", doctor);
                         intent.putExtra("hour", button.getText());
-                        intent.putExtra("date", date);
-
 
                         startActivity(intent);
                     }

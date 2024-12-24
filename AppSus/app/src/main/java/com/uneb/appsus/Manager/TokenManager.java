@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 public class TokenManager {
     private static final String PREFS_NAME = "token_prefs";
     private static final String TOKEN_KEY = "bearer_token";
+    private static final String USER_ID_KEY = "user_id";
     private static TokenManager instance;
     private final SharedPreferences sharedPreferences;
 
@@ -29,5 +30,15 @@ public class TokenManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN_KEY, bearerToken);
         editor.apply();
+    }
+
+    public void setUserId(String userId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_ID_KEY, userId);
+        editor.apply();
+    }
+
+    public String getUserId() {
+        return sharedPreferences.getString(USER_ID_KEY, null);
     }
 }

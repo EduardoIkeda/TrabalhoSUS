@@ -1,6 +1,9 @@
 package com.uneb.appsus.DTO;
 
-public class SpecialitiesDTO {
+import java.io.Serializable;
+
+public class SpecialitiesDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String name;
     private String description;

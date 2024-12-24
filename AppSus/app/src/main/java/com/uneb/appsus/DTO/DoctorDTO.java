@@ -1,11 +1,14 @@
 package com.uneb.appsus.DTO;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DoctorDTO {
+public class DoctorDTO implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     private Long id;
 
     private String name;

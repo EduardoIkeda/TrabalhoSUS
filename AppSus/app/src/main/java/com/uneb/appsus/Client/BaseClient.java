@@ -17,7 +17,7 @@ import okhttp3.Response;
 
 public class BaseClient {
 
-    protected static final String BASE_URL = "http://172.20.10.4:8080/api";
+    protected static final String BASE_URL = "http://192.168.15.12:8080/api";
 
     protected Context context;
     protected OkHttpClient client;

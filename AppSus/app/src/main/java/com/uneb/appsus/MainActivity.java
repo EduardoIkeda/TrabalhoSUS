@@ -21,6 +21,7 @@ import com.uneb.appsus.Activities.RegisterUserActivity;
 import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.Manager.TokenManager;
+import com.uneb.appsus.Utility.Tuple;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -69,11 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
                 executorService.submit(() -> {
                     UserClient userClient = new UserClient(MainActivity.this);
-                    String token = userClient.loginUser(user);
+                    Tuple<String,String> tokenAndUserId = userClient.loginUser(user);
+                    String token = tokenAndUserId.first;
+                    String userId = tokenAndUserId.second;
 
                     runOnUiThread(() -> {
                         if (token != null) {
                             TokenManager.getInstance(MainActivity.this).setBearerToken(token);
+                            TokenManager.getInstance(MainActivity.this).setUserId(userId);
                             Intent intent = new Intent(MainActivity.this, ConsultasActivity.class);
                             startActivity(intent);
                         } else {

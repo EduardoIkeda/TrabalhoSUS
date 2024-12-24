@@ -1,8 +1,11 @@
 package com.uneb.appsus.DTO;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class HealthCenterDTO {
+public class HealthCenterDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private Long id;
 
     private String name;

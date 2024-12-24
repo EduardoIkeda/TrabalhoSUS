@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.uneb.appsus.DTO.AppointmentDTO;
 import com.uneb.appsus.DTO.UserDTO;
+import com.uneb.appsus.Utility.Tuple;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -27,7 +28,7 @@ public class UserClient extends BaseClient{
         super(context);
     }
 
-    public String loginUser(UserDTO user) {
+    public Tuple<String,String> loginUser(UserDTO user) {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         RequestBody body = RequestBody.create(json, JSON);
@@ -37,7 +38,7 @@ public class UserClient extends BaseClient{
             if (response.isSuccessful() && response.body() != null) {
                 String responseBody = response.body().string();
                 JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-                return jsonObject.get("token").getAsString();
+                return new Tuple<>(jsonObject.get("token").getAsString(), jsonObject.get("id").getAsString());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,7 +46,7 @@ public class UserClient extends BaseClient{
         return null;
     }
 
-    public String registerUser(UserDTO user) {
+    public Tuple<String,String> registerUser(UserDTO user) {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         RequestBody body = RequestBody.create(json, JSON);
@@ -55,7 +56,7 @@ public class UserClient extends BaseClient{
             if (response.isSuccessful() && response.body() != null){
                 String responseBody = response.body().string();
                 JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-                return jsonObject.get("token").getAsString();
+                return new Tuple<>(jsonObject.get("token").getAsString(), jsonObject.get("id").getAsString());
             }
         } catch (IOException e) {
             e.printStackTrace();

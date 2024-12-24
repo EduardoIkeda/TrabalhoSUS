@@ -40,9 +40,8 @@ public class DateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DateActivity.this, HourActivity.class);
-                String healthCenter = getIntent().getStringExtra("healthCenter");
-                intent.putExtra("healthCenter", healthCenter);
-                intent.putExtra("speciality", getIntent().getStringExtra("speciality"));
+                intent.putExtra("healthCenter", getIntent().getSerializableExtra("healthCenter"));
+                intent.putExtra("speciality", getIntent().getSerializableExtra("speciality"));
                 intent.putExtra("date", dateText.getText());
 
                 startActivity(intent);

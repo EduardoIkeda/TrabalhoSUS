@@ -39,7 +39,7 @@ public class SpecialitiesActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(SpecialitiesActivity.this, HealthCentersActivity.class);
-                    intent.putExtra("speciality", specialityDTO.getName());
+                    intent.putExtra("speciality", specialityDTO);
                     startActivity(intent);
                 }
             });

@@ -14,6 +14,7 @@ import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.Manager.TokenManager;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.Tuple;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -102,11 +103,14 @@ public class RegisterUserActivity extends AppCompatActivity {
 
                 executorService.submit(() -> {
                     UserClient userClient = new UserClient(RegisterUserActivity.this);
-                    String token = userClient.registerUser(userDTO);
+                    Tuple<String,String> tokenAndUserId = userClient.registerUser(userDTO);
+                    String token = tokenAndUserId.first;
+                    String userId = tokenAndUserId.second;
 
                     runOnUiThread(() -> {
                         if (token != null) {
                             TokenManager.getInstance(RegisterUserActivity.this).setBearerToken(token);
+                            TokenManager.getInstance(RegisterUserActivity.this).setUserId(userId);
                             Intent intent = new Intent(RegisterUserActivity.this, ConsultasActivity.class);
                             startActivity(intent);
                         }else{

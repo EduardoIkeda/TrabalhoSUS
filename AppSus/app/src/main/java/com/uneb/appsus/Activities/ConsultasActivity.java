@@ -2,9 +2,11 @@ package com.uneb.appsus.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,9 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.uneb.appsus.Client.AppointmentsClient;
 import com.uneb.appsus.DTO.AppointmentDTO;
+import com.uneb.appsus.DTO.AppointmentDisplayDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.enums.AppointmentStatus;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -53,33 +58,68 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void run() {
                 AppointmentsClient client = new AppointmentsClient(ConsultasActivity.this);
-                final List<AppointmentDTO> appointments = client.getAppointments();
+                final List<AppointmentDisplayDTO> appointments = client.getAppointments();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        displayAppointments(appointments);
+                        displayAppointments(appointments, client);
                     }
                 });
             }
         });
     }
 
-    private void displayAppointments(List<AppointmentDTO> appointments) {
+    private void displayAppointments(List<AppointmentDisplayDTO> appointments, AppointmentsClient client) {
         LayoutInflater inflater = LayoutInflater.from(this);
         if (appointments == null) {
             return;
         }
-        for (AppointmentDTO appointment : appointments) {
+        appointmentsContainer.removeAllViews();
+        Log.d("ConsultaRetornada", "Appointments size: " + appointments.size());
+        for (AppointmentDisplayDTO appointment : appointments) {
+            Log.d("ConsultaRetornada", "Specialty: " + appointment.getSpecialtyName());
             View appointmentView = inflater.inflate(R.layout.component_consulta, appointmentsContainer, false);
 
             TextView textViewSpecialty = appointmentView.findViewById(R.id.textViewSpecialty);
             TextView textViewDate = appointmentView.findViewById(R.id.textViewDate);
+            ImageButton cancelButton = appointmentView.findViewById(R.id.buttonCancel);
+            ImageButton rescheduleButton = appointmentView.findViewById(R.id.buttonReschedule);
 
-            textViewSpecialty.setText(appointment.getAppointmentStatus() + " " + appointment.getId()); // Replace with actual specialty name
+            textViewSpecialty.setText(appointment.getSpecialtyName());
             textViewDate.setText(appointment.getAppointmentDateTime());
+
+            if (isAppointmentCanceledOrMissed(appointment)) {
+                cancelButton.setAlpha(.5f);
+                rescheduleButton.setAlpha(.5f);
+            } else {
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                boolean success = client.cancelAppointment(appointment.getId());
+                                if (success) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            fetchAppointments();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            }
 
             appointmentsContainer.addView(appointmentView);
         }
+    }
+
+    private boolean isAppointmentCanceledOrMissed(AppointmentDisplayDTO appointment) {
+        return Objects.equals(appointment.getAppointmentStatus(), AppointmentStatus.CANCELED.getValue()) ||
+                Objects.equals(appointment.getAppointmentStatus(), AppointmentStatus.MISSED.getValue());
     }
 
     @Override
