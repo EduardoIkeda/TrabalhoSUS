@@ -12,9 +12,19 @@ public class HealthCenterDTO implements Serializable {
 
     private String address;
 
-    private LocalTime openingHour;
+    private String openingHour;
 
-    private LocalTime closingHour;
+    private String closingHour;
+    
+    private int availableAppointmentsCount;
+
+    public int getAvailableAppointmentsCount() {
+        return availableAppointmentsCount;
+    }
+
+    public void setAvailableAppointmentsCount(int availableAppointmentsCount) {
+        this.availableAppointmentsCount = availableAppointmentsCount;
+    }
 
     public Long getId() {
         return id;
@@ -41,18 +51,18 @@ public class HealthCenterDTO implements Serializable {
     }
 
     public LocalTime getOpeningHour() {
-        return openingHour;
+        return LocalTime.parse(openingHour);
     }
 
     public void setOpeningHour(LocalTime openingHour) {
-        this.openingHour = openingHour;
+        this.openingHour = openingHour.toString();
     }
 
     public LocalTime getClosingHour() {
-        return closingHour;
+        return LocalTime.parse(closingHour);
     }
 
     public void setClosingHour(LocalTime closingHour) {
-        this.closingHour = closingHour;
+        this.closingHour = closingHour.toString();
     }
 }
