@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.uneb.appsus.DTO.AppointmentByDateDTO;
 import com.uneb.appsus.DTO.AppointmentDTO;
 import com.uneb.appsus.DTO.AppointmentDisplayDTO;
 import com.uneb.appsus.Manager.TokenManager;
@@ -56,6 +57,26 @@ public class AppointmentsClient extends BaseClient {
         public Exception getException() {
             return exception;
         }
+    }
+
+    public List<AppointmentByDateDTO> getAppointmentsBySpecialtyAndHealthCenter(Long specialtyId, Long healthCenterId) {
+        Request request = this.baseRequest(APPOINTMENTS_URL +
+                "/group?healthCenterId=" + healthCenterId +
+                "&specialtyId=" + specialtyId);
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful() && response.body() != null) {
+                String json = response.body().string();
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<AppointmentByDateDTO>>() {
+                }.getType();
+                Log.d("AppointmentsClient", "Response: " + json);
+                return gson.fromJson(json, listType);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<AppointmentDisplayDTO> getAppointments() {

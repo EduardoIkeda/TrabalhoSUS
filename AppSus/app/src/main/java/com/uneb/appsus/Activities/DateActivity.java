@@ -3,22 +3,36 @@ package com.uneb.appsus.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.uneb.appsus.DTO.DoctorDTO;
+import com.uneb.appsus.Client.AppointmentsClient;
+import com.uneb.appsus.DTO.AppointmentByDateDTO;
+import com.uneb.appsus.DTO.HealthCenterDTO;
+import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DateActivity extends AppCompatActivity {
+
+    private ExecutorService executorService;
+    private AppointmentsClient appointmentsClient;
+    private SpecialitiesDTO speciality;
+    private HealthCenterDTO healthCenter;
+    private String[] dates;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +42,23 @@ public class DateActivity extends AppCompatActivity {
         Button button = findViewById(R.id.nextButton);
         TextView dateText = findViewById(R.id.dateTextView);
         Button datebutton = findViewById(R.id.dateButton);
+
+        speciality = (SpecialitiesDTO) getIntent().getSerializableExtra("speciality");
+        healthCenter = (HealthCenterDTO) getIntent().getSerializableExtra("healthCenter");
+
+        executorService = Executors.newSingleThreadExecutor();
+        appointmentsClient = new AppointmentsClient(DateActivity.this);
+
+        executorService.execute(() -> {
+            List<AppointmentByDateDTO> appointments = appointmentsClient
+                    .getAppointmentsBySpecialtyAndHealthCenter(speciality.getId(), healthCenter.getId());
+            dates = new String[appointments.size()];
+
+            for (int i = 0; i < appointments.size(); i++) {
+                dates[i] = appointments.get(i).getDate();
+                Log.d("DateActivity", "Date: " + dates[i]);
+            }
+        });
 
         datebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,8 +71,8 @@ public class DateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DateActivity.this, HourActivity.class);
-                intent.putExtra("healthCenter", getIntent().getSerializableExtra("healthCenter"));
-                intent.putExtra("speciality", getIntent().getSerializableExtra("speciality"));
+                intent.putExtra("healthCenter", healthCenter);
+                intent.putExtra("speciality", speciality);
                 intent.putExtra("date", dateText.getText());
 
                 startActivity(intent);
@@ -49,7 +80,7 @@ public class DateActivity extends AppCompatActivity {
         });
     }
 
-    private void openDatePicker(){
+    private void openDatePicker() {
         TextView textView = findViewById(R.id.dateTextView);
 
         Calendar calendar = Calendar.getInstance();
@@ -59,15 +90,35 @@ public class DateActivity extends AppCompatActivity {
                 Calendar selectedDate = Calendar.getInstance();
                 selectedDate.set(year, monthOfYear, dayOfMonth);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                textView.setText(dateFormat.format(selectedDate.getTime()));
+                String date = dateFormat.format(selectedDate.getTime());
+                textView.setText(date);
+                if(!isDateAvailable(date)) {
+                    Toast.makeText(DateActivity.this, "Data não disponível" + date, Toast.LENGTH_SHORT).show();
+                }
             }
         },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH));
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
 
         datepicker.getDatePicker().setMinDate(System.currentTimeMillis());
 
         datepicker.show();
+    }
+
+    private boolean isDateAvailable(String date) {
+        for (String availableDate : dates) {
+            Log.d("DateActivity", "Available Date: " + availableDate + " Date: " + date);
+            if (availableDate.equals(date)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executorService.shutdown();
     }
 }
