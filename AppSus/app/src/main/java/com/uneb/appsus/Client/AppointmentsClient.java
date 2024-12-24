@@ -63,15 +63,17 @@ public class AppointmentsClient extends BaseClient {
         Request request = this.baseRequest(APPOINTMENTS_URL +
                 "/group?healthCenterId=" + healthCenterId +
                 "&specialtyId=" + specialtyId);
-
+    
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
                 String json = response.body().string();
+                Log.d("AppointmentsClient", "Response: " + json); // Adicione este log
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<AppointmentByDateDTO>>() {
                 }.getType();
-                Log.d("AppointmentsClient", "Response: " + json);
                 return gson.fromJson(json, listType);
+            } else {
+                Log.e("AppointmentsClient", "Failed to get appointments: " + response.code());
             }
         } catch (IOException e) {
             e.printStackTrace();

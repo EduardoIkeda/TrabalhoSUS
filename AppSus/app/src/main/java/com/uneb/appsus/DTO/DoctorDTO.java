@@ -4,22 +4,25 @@ import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DoctorDTO implements Serializable{
     private static final long serialVersionUID = 1L;
-    
+
     private Long id;
 
     private String name;
 
     private String crm;
 
-    private LocalTime startWork;
+    private String startWork;
 
-    private LocalTime endWork;
+    private String endWork;
 
     private Set<DayOfWeek> workingDays = new HashSet<>();
+
+    private List<DoctorAppointment> doctorAppointments;
 
     public Long getId() {
         return id;
@@ -37,19 +40,19 @@ public class DoctorDTO implements Serializable{
         this.crm = crm;
     }
 
-    public LocalTime getStartWork() {
+    public String getStartWork() {
         return startWork;
     }
 
-    public void setStartWork(LocalTime startWork) {
+    public void setStartWork(String startWork) {
         this.startWork = startWork;
     }
 
-    public LocalTime getEndWork() {
+    public String getEndWork() {
         return endWork;
     }
 
-    public void setEndWork(LocalTime endWork) {
+    public void setEndWork(String endWork) {
         this.endWork = endWork;
     }
 
@@ -67,5 +70,9 @@ public class DoctorDTO implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<DoctorAppointment> getAppointments() {
+        return doctorAppointments;
     }
 }

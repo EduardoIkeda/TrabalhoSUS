@@ -3,6 +3,7 @@ package com.uneb.appsus.Activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,18 +13,36 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.uneb.appsus.Client.AppointmentsClient;
+import com.uneb.appsus.DTO.AppointmentByDateDTO;
+import com.uneb.appsus.DTO.DoctorAppointment;
 import com.uneb.appsus.DTO.DoctorDTO;
+import com.uneb.appsus.DTO.HealthCenterDTO;
+import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HourActivity extends AppCompatActivity {
+
+    private ExecutorService executorService;
+    private AppointmentsClient appointmentsClient;
+    private SpecialitiesDTO speciality;
+    private HealthCenterDTO healthCenter;
+    private String date;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -32,27 +51,57 @@ public class HourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_horario);
 
         LinearLayout layout = findViewById(R.id.linearLayout);
+        executorService = Executors.newSingleThreadExecutor();
+        appointmentsClient = new AppointmentsClient(HourActivity.this);
+        speciality = (SpecialitiesDTO) getIntent().getSerializableExtra("speciality");
+        healthCenter = (HealthCenterDTO) getIntent().getSerializableExtra("healthCenter");
+        date = getIntent().getStringExtra("date");
 
-        List<DoctorDTO> doctors = getDoctors();
+        executorService.execute(() -> {
+            List<AppointmentByDateDTO> appointments = appointmentsClient
+                    .getAppointmentsBySpecialtyAndHealthCenter(speciality.getId(), healthCenter.getId());
+            runOnUiThread(() -> displayAppointments(appointments, layout));
+        });
+    }
 
-        for (DoctorDTO doctor : doctors) {
+    private void displayAppointments(List<AppointmentByDateDTO> appointments, LinearLayout layout) {
+        AppointmentByDateDTO appointment = getAppointmentFromDate(appointments, date);
+        if (appointment == null) {
+            return;
+        }
+
+        List<DoctorDTO> doctors = appointment.getDoctorList();
+
+        for (DoctorDTO doctorDTO : doctors) {
+            List<DoctorAppointment> doctorAppointments = doctorDTO.getAppointments();
+
+            if (doctorAppointments == null || doctorAppointments.isEmpty()) {
+                continue;
+            }
+
             View view = LayoutInflater.from(this).inflate(R.layout.component_horario, layout, false);
             TextView textViewSpecialty = view.findViewById(R.id.textViewSpecialty);
             LinearLayout hoursLayout = view.findViewById(R.id.hoursLayout);
 
-            textViewSpecialty.setText("Dr." + doctor.getName() + " - " + doctor.getCrm());
+            for (DoctorAppointment doctorAppointment : doctorAppointments) {
+                String time = doctorAppointment.getTime();
 
-            LocalTime start = doctor.getStartWork();
-            LocalTime end = doctor.getEndWork();
-            while (start.isBefore(end)) {
+                if (!isDoctorTimeValid(doctorDTO, time)) {
+                    continue;
+                }
+
                 AppCompatButton button = new AppCompatButton(this);
-                button.setText(start.toString());
+
+                button.setBackground( ResourcesCompat.getDrawable( getResources(), R.drawable.rounded_background, null));
+                button.setBackgroundColor(getResources().getColor(R.color.white));
+                button.setPadding(2, 0, 2, 0);
+                button.setTextSize(16);
+
+                button.setText(time);
                 button.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ));
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
                 hoursLayout.addView(button);
-                start = start.plusHours(1);
 
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -60,49 +109,48 @@ public class HourActivity extends AppCompatActivity {
                         Intent intent = new Intent(HourActivity.this, AppointmentConfirmationActivity.class);
                         intent.putExtra("healthCenter", getIntent().getSerializableExtra("healthCenter"));
                         intent.putExtra("speciality", getIntent().getSerializableExtra("speciality"));
-                        intent.putExtra("date", getIntent().getStringExtra("date"));
+                        intent.putExtra("date", date);
+                        intent.putExtra("appointmentId", doctorAppointment.getId());
 
-                        intent.putExtra("doctorName", doctor);
+                        intent.putExtra("doctorName", doctorDTO.getName());
                         intent.putExtra("hour", button.getText());
 
                         startActivity(intent);
                     }
                 });
             }
-
             layout.addView(view);
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private List<DoctorDTO> getDoctors() {
-        List<DoctorDTO> doctors = new ArrayList<>();
+    private boolean isDoctorTimeValid(DoctorDTO doctorDTO, String hour) {
+        String startTime = doctorDTO.getStartWork();
+        String endTime = doctorDTO.getEndWork();
+        Log.d("HourActivity", "start: " + startTime + "end: " + endTime + "hour: " + hour);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    
+        try {
+            Date start = sdf.parse(startTime);
+            Date end = sdf.parse(endTime);
+            Date appointmentTime = sdf.parse(hour);
+    
+            if (appointmentTime == null || start == null || end == null || appointmentTime.before(start) || appointmentTime.after(end)) {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    
+        return true;
+    }
 
-        DoctorDTO doctor1 = new DoctorDTO();
-        doctor1.setId(1L);
-        doctor1.setName("Pedro");
-        doctor1.setCrm("CRM12345");
-        doctor1.setStartWork(LocalTime.of(8, 0));
-        doctor1.setEndWork(LocalTime.of(17, 0));
-        Set<DayOfWeek> workingDays1 = new HashSet<>();
-        workingDays1.add(DayOfWeek.MONDAY);
-        workingDays1.add(DayOfWeek.WEDNESDAY);
-        doctor1.setWorkingDays(workingDays1);
-
-        DoctorDTO doctor2 = new DoctorDTO();
-        doctor2.setId(2L);
-        doctor2.setName("Mauro");
-        doctor2.setCrm("CRM67890");
-        doctor2.setStartWork(LocalTime.of(9, 0));
-        doctor2.setEndWork(LocalTime.of(18, 0));
-        Set<DayOfWeek> workingDays2 = new HashSet<>();
-        workingDays2.add(DayOfWeek.TUESDAY);
-        workingDays2.add(DayOfWeek.THURSDAY);
-        doctor2.setWorkingDays(workingDays2);
-
-        doctors.add(doctor1);
-        doctors.add(doctor2);
-
-        return doctors;
+    private AppointmentByDateDTO getAppointmentFromDate(List<AppointmentByDateDTO> appointments, String date) {
+        for (AppointmentByDateDTO appointment : appointments) {
+            if (appointment.getDate().equals(date)) {
+                return appointment;
+            }
+        }
+        return null;
     }
 }

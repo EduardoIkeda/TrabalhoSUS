@@ -1,12 +1,14 @@
 package com.uneb.appsus.DTO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppointmentByDateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String date;
-    private DoctorDTO doctor;
+    private final List<DoctorDTO> doctors = new ArrayList<>();
 
     public String getDate() {
         return date;
@@ -16,11 +18,7 @@ public class AppointmentByDateDTO implements Serializable {
         this.date = date;
     }
 
-    public DoctorDTO getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(DoctorDTO doctor) {
-        this.doctor = doctor;
+    public List<DoctorDTO> getDoctorList() {
+        return doctors;
     }
 }
