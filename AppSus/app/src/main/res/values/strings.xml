@@ -22,7 +22,7 @@
     <!-- Titulos de tela -->
     <string name="entrar_title">Entrar</string>
     <string name="cadastro_title">Preencha seus dados</string>
-    <string name="editar_dados_title">Preencha seus dados</string>
+    <string name="editar_dados_title">Edite seus dados</string>
 
     <string name="consulta_title">Suas Consultas</string>
     <string name="especialidade_title">Selecione a especialidade</string>
@@ -55,5 +55,8 @@
     <string name="data">Data e hora</string>
     <string name="selecionar_data">Selecionar data</string>
     <string name="continuar">Continuar</string>
+    <string name="informacoes_pessoais">Informações pessoais</string>
+    <string name="alterar_senha">Alterar Senha</string>
+    <string name="dados_alteraveis">Dados alteráveis</string>
 
 </resources>

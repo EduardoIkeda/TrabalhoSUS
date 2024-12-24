@@ -31,6 +31,7 @@
         <activity android:name=".Activities.HourActivity"></activity>
         <activity android:name=".Activities.AppointmentConfirmationActivity"></activity>
         <activity android:name=".Activities.DateActivity"></activity>
+        <activity android:name=".Activities.ProfileActivity"></activity>
 
     </application>
 

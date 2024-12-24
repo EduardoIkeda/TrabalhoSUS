@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,7 @@ public class ConsultasActivity extends AppCompatActivity {
     private Button bookingButton;
     private LinearLayout appointmentsContainer;
     private ExecutorService executorService;
+    ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class ConsultasActivity extends AppCompatActivity {
         bookingButton = findViewById(R.id.bookingButton);
         appointmentsContainer = findViewById(R.id.appointmentContainer);
         executorService = Executors.newSingleThreadExecutor();
+        ImageView imageView = findViewById(R.id.imageView);
 
         appointmentsContainer.removeAllViews();
 
@@ -46,6 +50,15 @@ public class ConsultasActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ConsultasActivity.this, SpecialitiesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ConsultasActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
         });

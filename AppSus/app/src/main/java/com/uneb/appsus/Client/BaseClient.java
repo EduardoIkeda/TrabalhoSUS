@@ -70,4 +70,18 @@ public class BaseClient {
                 .post(body)
                 .build();
     }
+
+    public Request putRequest(RequestBody body, String url){
+        return new Request.Builder()
+                .url(BASE_URL + url)
+                .put(body)
+                .build();
+    }
+
+    public Request patchRequest(RequestBody body, String url){
+        return new Request.Builder()
+                .url(BASE_URL + url)
+                .patch(body)
+                .build();
+    }
 }

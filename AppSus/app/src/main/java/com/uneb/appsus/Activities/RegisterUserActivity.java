@@ -15,6 +15,7 @@ import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.Manager.TokenManager;
 import com.uneb.appsus.R;
 import com.uneb.appsus.Utility.Tuple;
+import com.uneb.appsus.Utility.Validator;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,38 +56,39 @@ public class RegisterUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String password = editTextPassword.getText().toString();
+                String passwordConfirmation = editTextPasswordConfirmation.getText().toString();
                 String name = editTextName.getText().toString();
                 String phone = editTextPhone.getText().toString();
                 String cpf = editTextCPF.getText().toString();
                 String susCard = editTextSUSCard.getText().toString();
                 String email = editTextEmail.getText().toString();
 
-                if(!isNameValid()){
+                if(!Validator.isNameValid(name)){
                     Toast.makeText(RegisterUserActivity.this, "O nome deve ter entre 6 e 100 caracteres", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!isPhoneValid()){
+                if(!Validator.isPhoneValid(phone)){
                     Toast.makeText(RegisterUserActivity.this, "O telefone deve ter entre 10 e 13 caracteres", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!isPasswordValid() ){
+                if(!Validator.isPasswordValid(password, passwordConfirmation) ){
                     Toast.makeText(RegisterUserActivity.this, "Senha inválida", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!isCPFValid()){
+                if(!Validator.isCPFValid(cpf)){
                     Toast.makeText(RegisterUserActivity.this, "CPF inválido", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!isSUSCardValid()){
+                if(!Validator.isSUSCardValid(susCard)){
                     Toast.makeText(RegisterUserActivity.this, "Cartão SUS inválido", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if(!isEmailValid() ){
+                if(!Validator.isEmailValid(email) ){
                     Toast.makeText(RegisterUserActivity.this, "Email inválido", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -120,94 +122,6 @@ public class RegisterUserActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private boolean isNameValid(){
-        String name = editTextName.getText().toString();
-        if(!isTextMinSize(6, name)){
-            return false;
-        }
-
-        if(!isTextMaxSize(100, name)){
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isPhoneValid(){
-        String phone = editTextPhone.getText().toString();
-
-        if(!isTextMinSize(10, phone)){
-            return false;
-        }
-
-        if(!isTextMaxSize(13, phone)){
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isPasswordValid() {
-        String password = editTextPassword.getText().toString();
-        String passwordConfirmation = editTextPasswordConfirmation.getText().toString();
-
-        if (!password.equals(passwordConfirmation)) {
-            return false;
-        }
-
-        if (!isTextMinSize(6, password)) {
-            return false;
-        }
-
-        if (!isTextMaxSize(100, password)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isCPFValid(){
-        String cpf = editTextCPF.getText().toString();
-
-        if(cpf.length() != 11){
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isSUSCardValid(){
-        String susCard = editTextSUSCard.getText().toString();
-
-        if(susCard.length() != 15){
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isEmailValid(){
-        String email = editTextEmail.getText().toString();
-
-        if(!isTextMinSize(6, email)){
-            return false;
-        }
-
-        if(!isTextMaxSize(100, email)){
-            return false;
-        }
-
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isTextMinSize(int min, String text){
-        return text.length() >= min;
-    }
-
-    private boolean isTextMaxSize(int max, String text){
-        return text.length() <= max;
     }
 
     @Override
