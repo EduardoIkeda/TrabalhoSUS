@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/dark_blue"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/buttonReturn"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:backgroundTint="@color/white"
+            style="@style/SquaredButtonStyle"
+            android:layout_margin="6dp"
+            app:srcCompat="@drawable/resource_return"
+            app:tint="@color/black"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            style="@style/TextViewHeaderStyle"
+            android:textColor="@color/white"
+            android:layout_toEndOf="@id/buttonReturn"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp" />
+
+        <ImageButton
+            android:id="@+id/buttonMenu"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            style="@style/SquaredButtonStyle"
+            android:layout_margin="6dp"
+            app:srcCompat="@drawable/menu"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+</androidx.appcompat.widget.Toolbar>

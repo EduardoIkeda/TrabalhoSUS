@@ -1,6 +1,8 @@
 package com.uneb.appsus.DTO;
 
-public class DoctorAppointment {
+import java.io.Serializable;
+
+public class DoctorAppointment implements Serializable {
     private String id;
     private String patientId;
     private String doctorName;

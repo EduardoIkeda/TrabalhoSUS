@@ -64,6 +64,13 @@ public class BaseClient {
                 .build();
     }
 
+    public Request deleteRequest(String url){
+        return new Request.Builder()
+                .url(BASE_URL + url)
+                .delete()
+                .build();
+    }
+
     public Request postRequest(RequestBody body, String url){
         return new Request.Builder()
                 .url(BASE_URL + url)

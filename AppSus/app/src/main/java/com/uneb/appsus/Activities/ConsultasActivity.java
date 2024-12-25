@@ -1,5 +1,6 @@
 package com.uneb.appsus.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.uneb.appsus.Client.AppointmentsClient;
-import com.uneb.appsus.DTO.AppointmentDTO;
 import com.uneb.appsus.DTO.AppointmentDisplayDTO;
 import com.uneb.appsus.R;
 import com.uneb.appsus.enums.AppointmentStatus;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class ConsultasActivity extends AppCompatActivity {
 
@@ -66,6 +66,19 @@ public class ConsultasActivity extends AppCompatActivity {
         fetchAppointments();
     }
 
+    private void showBookingDialog(String message, DialogInterface.OnClickListener confirmAction) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+               .setPositiveButton("Confirmar", confirmAction)
+               .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       dialog.dismiss();
+                   }
+               });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    
     private void fetchAppointments() {
         executorService.execute(new Runnable() {
             @Override
@@ -105,9 +118,35 @@ public class ConsultasActivity extends AppCompatActivity {
                 cancelButton.setAlpha(.5f);
                 rescheduleButton.setAlpha(.5f);
             } else {
-                cancelButton.setOnClickListener(new View.OnClickListener() {
+                configureCancelButton(client, appointment, cancelButton);
+                configureScheduleButton(client, appointment, rescheduleButton);
+            }
+
+            appointmentsContainer.addView(appointmentView);
+        }
+    }
+
+    private void configureScheduleButton(AppointmentsClient client, AppointmentDisplayDTO appointment, ImageButton rescheduleButton) {
+        rescheduleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBookingDialog("Deseja remarcar a consulta?", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(ConsultasActivity.this, "Consulta remarcada com sucesso!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void configureCancelButton(AppointmentsClient client, AppointmentDisplayDTO appointment, ImageButton cancelButton) {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showBookingDialog("Deseja cancelar a consulta?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
                         executorService.execute(new Runnable() {
                             @Override
                             public void run() {
@@ -125,10 +164,22 @@ public class ConsultasActivity extends AppCompatActivity {
                     }
                 });
             }
-
-            appointmentsContainer.addView(appointmentView);
-        }
+        });
     }
+
+
+    // bookingButton.setOnClickListener(new View.OnClickListener() {
+    //     @Override
+    //     public void onClick(View view) {
+    //         showBookingDialog("Deseja agendar uma nova consulta?", new DialogInterface.OnClickListener() {
+    //             @Override
+    //             public void onClick(DialogInterface dialog, int id) {
+    //                 Intent intent = new Intent(ConsultasActivity.this, SpecialitiesActivity.class);
+    //                 startActivity(intent);
+    //             }
+    //         });
+    //     }
+    // });
 
     private boolean isAppointmentCanceledOrMissed(AppointmentDisplayDTO appointment) {
         return Objects.equals(appointment.getAppointmentStatus(), AppointmentStatus.CANCELED.getValue()) ||

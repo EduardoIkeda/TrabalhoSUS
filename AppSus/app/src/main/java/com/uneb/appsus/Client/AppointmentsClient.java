@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.uneb.appsus.DTO.AppointmentByDateDTO;
 import com.uneb.appsus.DTO.AppointmentDTO;
 import com.uneb.appsus.DTO.AppointmentDisplayDTO;
+import com.uneb.appsus.DTO.DoctorAppointment;
 import com.uneb.appsus.Manager.TokenManager;
 
 import java.io.IOException;
@@ -101,14 +102,15 @@ public class AppointmentsClient extends BaseClient {
         return null;
     }
 
-    public Future<AppointmentResult> createAppointment(AppointmentDTO appointment) {
+    public Future<AppointmentResult> createAppointment(DoctorAppointment appointment) {
+        appointment.setPatientId(TokenManager.getInstance(context).getUserId());
         return executorService.submit(new Callable<AppointmentResult>() {
             @Override
             public AppointmentResult call() {
                 Gson gson = new Gson();
                 String json = gson.toJson(appointment);
                 RequestBody body = RequestBody.create(json, JSON);
-                Request request = postRequest(body, APPOINTMENTS_URL);
+                Request request = putRequest(body, APPOINTMENTS_URL + "/schedule/" + appointment.getId());
 
                 try (Response response = client.newCall(request).execute()) {
                     if (response.isSuccessful() && response.body() != null) {
@@ -125,16 +127,35 @@ public class AppointmentsClient extends BaseClient {
     }
 
     public boolean cancelAppointment(int appointmentId) {
-        Request request = new Request.Builder()
-                .url(BASE_URL + APPOINTMENTS_URL + "/" + appointmentId)
-                .delete()
-                .build();
+        Request request = this.deleteRequest( APPOINTMENTS_URL + "/" + appointmentId);
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 Log.d("AppointmentsClient", "Appointment canceled successfully");
                 return true;
             } else {
                 Log.e("AppointmentsClient", "Failed to cancel appointment: " + response.code());
+                throw new IOException("Unexpected code " + response);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean scheduleAppointment(DoctorAppointment doctorAppointment) {
+        doctorAppointment.setPatientId( TokenManager.getInstance(context).getUserId());
+
+        Gson gson = new Gson();
+        String json = gson.toJson(doctorAppointment);
+        RequestBody body = RequestBody.create(json, JSON);
+        Request request = putRequest(body, APPOINTMENTS_URL + "/schedule/" + doctorAppointment.getId());
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                Log.d("AppointmentsClient", "Appointment scheduled successfully");
+                return true;
+            } else {
+                Log.e("AppointmentsClient", "Failed to schedule appointment: " + response.code());
                 throw new IOException("Unexpected code " + response);
             }
         } catch (IOException e) {

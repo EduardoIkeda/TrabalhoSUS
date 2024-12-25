@@ -28,7 +28,7 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/textViewSpecialty"
+                android:id="@+id/doctorTextView"
                 style="@style/TextViewLargeStyle"
                 android:textColor="@color/white"
                 android:textStyle="bold"

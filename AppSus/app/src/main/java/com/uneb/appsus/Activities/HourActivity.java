@@ -80,10 +80,11 @@ public class HourActivity extends AppCompatActivity {
             }
 
             View view = LayoutInflater.from(this).inflate(R.layout.component_horario, layout, false);
-            TextView textViewSpecialty = view.findViewById(R.id.textViewSpecialty);
+            TextView doctorTextView = view.findViewById(R.id.doctorTextView);
             LinearLayout hoursLayout = view.findViewById(R.id.hoursLayout);
 
             for (DoctorAppointment doctorAppointment : doctorAppointments) {
+                doctorTextView.setText(String.format("Dr. %s", doctorAppointment.getDoctorName()));
                 String time = doctorAppointment.getTime();
 
                 if (!isDoctorTimeValid(doctorDTO, time)) {
@@ -110,9 +111,8 @@ public class HourActivity extends AppCompatActivity {
                         intent.putExtra("healthCenter", getIntent().getSerializableExtra("healthCenter"));
                         intent.putExtra("speciality", getIntent().getSerializableExtra("speciality"));
                         intent.putExtra("date", date);
-                        intent.putExtra("appointmentId", doctorAppointment.getId());
+                        intent.putExtra("appointment", doctorAppointment);
 
-                        intent.putExtra("doctorName", doctorDTO.getName());
                         intent.putExtra("hour", button.getText());
 
                         startActivity(intent);

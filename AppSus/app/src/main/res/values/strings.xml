@@ -58,5 +58,6 @@
     <string name="informacoes_pessoais">Informações pessoais</string>
     <string name="alterar_senha">Alterar Senha</string>
     <string name="dados_alteraveis">Dados alteráveis</string>
+    <string name="cancelar">Cancelar</string>
 
 </resources>
