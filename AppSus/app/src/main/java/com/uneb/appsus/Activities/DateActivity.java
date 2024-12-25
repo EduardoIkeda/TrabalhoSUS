@@ -18,6 +18,7 @@ import com.uneb.appsus.DTO.AppointmentByDateDTO;
 import com.uneb.appsus.DTO.HealthCenterDTO;
 import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,6 +43,12 @@ public class DateActivity extends AppCompatActivity {
         Button button = findViewById(R.id.nextButton);
         TextView dateText = findViewById(R.id.dateTextView);
         Button datebutton = findViewById(R.id.dateButton);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.agendamento))
+                .withReturnButton()
+                .build();
 
         speciality = (SpecialitiesDTO) getIntent().getSerializableExtra("speciality");
         healthCenter = (HealthCenterDTO) getIntent().getSerializableExtra("healthCenter");

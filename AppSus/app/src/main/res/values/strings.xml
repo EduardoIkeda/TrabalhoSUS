@@ -59,5 +59,15 @@
     <string name="alterar_senha">Alterar Senha</string>
     <string name="dados_alteraveis">Dados alteráveis</string>
     <string name="cancelar">Cancelar</string>
+    <string name="agendamento">Agendamento</string>
+    <string name="cadastro">Cadastro</string>
+
+    <!-- Validacao -->
+    <string name="nome_validacao">O nome deve ter entre 6 e 100 caracteres</string>
+    <string name="phone_validacao">O telefone deve ter entre 10 e 13 caracteres</string>
+    <string name="senha_validacao">Senha inválida</string>
+    <string name="cpf_validacao">CPF inválido</string>
+    <string name="sus_validacao">Cartão SUS inválido</string>
+    <string name="email_validacao">Email inválido</string>
 
 </resources>

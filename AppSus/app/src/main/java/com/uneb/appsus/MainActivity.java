@@ -3,24 +3,29 @@ package com.uneb.appsus;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.uneb.appsus.Activities.ConsultasActivity;
 import com.uneb.appsus.Activities.RegisterUserActivity;
 import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.Manager.TokenManager;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.Utility.Tuple;
 
 import java.text.SimpleDateFormat;
@@ -43,10 +48,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
         executorService = Executors.newSingleThreadExecutor();
-
         registerButton = findViewById(R.id.buttonRegister);
+
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.app_name))
+                .build();
+
+        
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

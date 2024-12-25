@@ -19,6 +19,7 @@ import com.uneb.appsus.DTO.HealthCenterDTO;
 import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.MainActivity;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.enums.AppointmentStatus;
 
 import java.text.SimpleDateFormat;
@@ -55,6 +56,12 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         textViewHealthCenter = findViewById(R.id.textViewPostoSaude);
         textViewSpecialty = findViewById(R.id.textViewEspecialidade);
         confirmButton = findViewById(R.id.buttonConfirm);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.agendamento))
+                .withReturnButton()
+                .build();
 
         textViewDoctorName.setText(String.format("Dr. %s", doctorAppointment.getDoctorName()));
         textViewHour.setText(String.format("%s %s", date, hour));

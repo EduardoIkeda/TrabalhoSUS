@@ -8,12 +8,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.Manager.TokenManager;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.Utility.Tuple;
 import com.uneb.appsus.Utility.Validator;
 
@@ -36,11 +36,14 @@ public class RegisterUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         executorService = Executors.newSingleThreadExecutor();
+
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.cadastro))
+                .withReturnButton()
+                .build();
 
         this.editTextCPF = findViewById(R.id.editTextCPF);
         this.editTextName = findViewById(R.id.editTextName);
@@ -64,32 +67,32 @@ public class RegisterUserActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
 
                 if(!Validator.isNameValid(name)){
-                    Toast.makeText(RegisterUserActivity.this, "O nome deve ter entre 6 e 100 caracteres", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, getString(R.string.nome_validacao), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(!Validator.isPhoneValid(phone)){
-                    Toast.makeText(RegisterUserActivity.this, "O telefone deve ter entre 10 e 13 caracteres", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, getString(R.string.phone_validacao), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(!Validator.isPasswordValid(password, passwordConfirmation) ){
-                    Toast.makeText(RegisterUserActivity.this, "Senha inválida", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, getString(R.string.senha_validacao), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(!Validator.isCPFValid(cpf)){
-                    Toast.makeText(RegisterUserActivity.this, "CPF inválido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, getString(R.string.cpf_validacao), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(!Validator.isSUSCardValid(susCard)){
-                    Toast.makeText(RegisterUserActivity.this, "Cartão SUS inválido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, getString(R.string.sus_validacao), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(!Validator.isEmailValid(email) ){
-                    Toast.makeText(RegisterUserActivity.this, "Email inválido", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterUserActivity.this, getString(R.string.email_validacao), Toast.LENGTH_SHORT).show();
                     return;
                 }
 

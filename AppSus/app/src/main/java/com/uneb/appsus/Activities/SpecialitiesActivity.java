@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.uneb.appsus.Client.SpecialitiesClient;
 import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -29,6 +30,13 @@ public class SpecialitiesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_especialidade);
         executorService = Executors.newSingleThreadExecutor();
         layout = findViewById(R.id.linearLayout);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.agendamento))
+                .withReturnButton()
+                .build();
+
         fetchAppointments();
     }
 

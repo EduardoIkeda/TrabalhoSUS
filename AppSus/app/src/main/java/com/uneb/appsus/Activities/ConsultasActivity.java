@@ -16,10 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.uneb.appsus.Client.AppointmentsClient;
 import com.uneb.appsus.DTO.AppointmentDisplayDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.enums.AppointmentStatus;
 
 import java.util.List;
@@ -43,6 +45,14 @@ public class ConsultasActivity extends AppCompatActivity {
         appointmentsContainer = findViewById(R.id.appointmentContainer);
         executorService = Executors.newSingleThreadExecutor();
         ImageView imageView = findViewById(R.id.imageView);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.app_name))
+                //.withBurgerButton(SettingsActivity.class))
+                .build();
+
+        imageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.profile, null));
 
         appointmentsContainer.removeAllViews();
 
@@ -53,7 +63,6 @@ public class ConsultasActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

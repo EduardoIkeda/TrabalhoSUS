@@ -14,6 +14,7 @@ import com.uneb.appsus.Client.HealthCenterClient;
 import com.uneb.appsus.DTO.HealthCenterDTO;
 import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -33,6 +34,12 @@ public class HealthCentersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_posto_saude);
         speciality = (SpecialitiesDTO) getIntent().getSerializableExtra("speciality");
         executorService = Executors.newSingleThreadExecutor();
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.agendamento))
+                .withReturnButton()
+                .build();
 
         layout = findViewById(R.id.linearLayout);
         layout.removeAllViews();

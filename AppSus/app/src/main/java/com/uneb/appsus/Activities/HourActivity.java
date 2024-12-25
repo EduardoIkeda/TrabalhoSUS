@@ -22,6 +22,7 @@ import com.uneb.appsus.DTO.DoctorDTO;
 import com.uneb.appsus.DTO.HealthCenterDTO;
 import com.uneb.appsus.DTO.SpecialitiesDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +54,13 @@ public class HourActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.linearLayout);
         executorService = Executors.newSingleThreadExecutor();
         appointmentsClient = new AppointmentsClient(HourActivity.this);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.agendamento))
+                .withReturnButton()
+                .build();
+
         speciality = (SpecialitiesDTO) getIntent().getSerializableExtra("speciality");
         healthCenter = (HealthCenterDTO) getIntent().getSerializableExtra("healthCenter");
         date = getIntent().getStringExtra("date");

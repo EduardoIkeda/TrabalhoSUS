@@ -20,6 +20,7 @@ import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.DTO.UserPartialDTO;
 import com.uneb.appsus.R;
+import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.Utility.Validator;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -53,6 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
         editTextSUSCard = findViewById(R.id.editTextNumeroCartaoSus);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPasswordConfirmation = findViewById(R.id.editTextConfirmPassword);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
+        new ToolbarBuilder(this, toolbar)
+                .withTitle(getString(R.string.app_name))
+                .withReturnButton()
+                //.withBurgerButton(SettingsActivity.class))
+                .build();
 
         buttonConfirm = findViewById(R.id.buttonConfirm);
 
