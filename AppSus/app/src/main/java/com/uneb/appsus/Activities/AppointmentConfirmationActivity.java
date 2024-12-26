@@ -1,4 +1,5 @@
 package com.uneb.appsus.Activities;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import android.content.Intent;
@@ -51,6 +52,16 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         hour = getIntent().getStringExtra("hour");
         doctorAppointment = (DoctorAppointment) getIntent().getSerializableExtra("appointment");
 
+        if (doctorAppointment == null) {
+            Toast.makeText(this, "Erro: Dados do agendamento não encontrados.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        } else {
+            // Debug log to check doctorAppointment values
+            System.out.println("Doctor Name: " + doctorAppointment.getDoctorName());
+            // Add more fields if necessary
+        }
+
         textViewDoctorName = findViewById(R.id.textViewMedico);
         textViewHour = findViewById(R.id.textViewDataHora);
         textViewHealthCenter = findViewById(R.id.textViewPostoSaude);
@@ -63,38 +74,52 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
                 .withReturnButton()
                 .build();
 
-        textViewDoctorName.setText(String.format("Dr. %s", doctorAppointment.getDoctorName()));
-        textViewHour.setText(String.format("%s %s", date, hour));
-        textViewHealthCenter.setText(healthCenter != null ? healthCenter.getName() : "PostoSaude");
-        textViewSpecialty.setText(speciality != null ? speciality.getName() : "Especialidade");
+        if (textViewDoctorName != null) {
+            textViewDoctorName.setText(doctorAppointment.getDoctorName());
+        }
+        if (textViewHour != null) {
+            textViewHour.setText(String.format("%s %s", date, hour));
+        }
+        if (textViewHealthCenter != null) {
+            textViewHealthCenter.setText(healthCenter != null ? healthCenter.getName() : "PostoSaude");
+        }
+        if (textViewSpecialty != null) {
+            textViewSpecialty.setText(speciality != null ? speciality.getName() : "Especialidade");
+        }
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Future<AppointmentsClient.AppointmentResult> futureResult = getAppointmentResultFuture();
+         confirmButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Future<AppointmentsClient.AppointmentResult> futureResult = getAppointmentResultFuture(doctorAppointment);
 
-                try {
-                    AppointmentsClient.AppointmentResult result = futureResult.get();
-                    if (result.isSuccess()) {
-                        Toast.makeText(AppointmentConfirmationActivity.this, "Consulta criada com sucesso!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(AppointmentConfirmationActivity.this, "Falha ao criar a Consulta!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
+                 try {
+                     AppointmentsClient.AppointmentResult result = futureResult.get();
+                     if (result.isSuccess()) {
+                         Toast.makeText(AppointmentConfirmationActivity.this, "Consulta criada com sucesso!",
+                                 Toast.LENGTH_SHORT).show();
+                     } else {
+                         Toast.makeText(AppointmentConfirmationActivity.this, "Falha ao criar a Consulta!",
+                                 Toast.LENGTH_SHORT).show();
+                     }
+                 } catch (InterruptedException | ExecutionException e) {
+                     e.printStackTrace();
+                 }
 
-                Intent intent = new Intent(AppointmentConfirmationActivity.this, ConsultasActivity.class);
-                startActivity(intent);
-            }
+                 Intent intent = new Intent(AppointmentConfirmationActivity.this, ConsultasActivity.class);
+                 startActivity(intent);
+             }
+         });
 
-            private Future<AppointmentsClient.AppointmentResult> getAppointmentResultFuture() {
-                AppointmentsClient appointmentsClient = new AppointmentsClient(AppointmentConfirmationActivity.this);
-                return appointmentsClient.createAppointment(doctorAppointment);
-            }
-        });
+    }
 
+    private Future<AppointmentsClient.AppointmentResult> getAppointmentResultFuture(
+            DoctorAppointment doctorAppointment) {
+        AppointmentsClient appointmentsClient = new AppointmentsClient(AppointmentConfirmationActivity.this);
+        AppointmentDTO appointmentDTO = new AppointmentDTO();
+        appointmentDTO.setId(Long.parseLong(doctorAppointment.getId()));
+        appointmentDTO.setAppointmentDateTime(doctorAppointment.getAppointmentDateTime());
+        appointmentDTO.setAppointmentStatus(doctorAppointment.getAppointmentStatus());
 
-
+        return appointmentsClient.createAppointment(appointmentDTO);
     }
 }

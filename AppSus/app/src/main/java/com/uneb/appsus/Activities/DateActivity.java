@@ -40,13 +40,11 @@ public class DateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.uneb.appsus.R.layout.activity_date);
 
-        Button button = findViewById(R.id.nextButton);
-
+        Button nextButton = findViewById(R.id.nextButton);
         TextView dateText = findViewById(R.id.dateTextView);
         Button dateButton = findViewById(R.id.dateButton);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
-        // Configurar Toolbar
         new ToolbarBuilder(this, toolbar)
                 .withTitle(getString(R.string.agendamento))
                 .withReturnButton()
@@ -58,7 +56,7 @@ public class DateActivity extends AppCompatActivity {
         executorService = Executors.newSingleThreadExecutor();
         appointmentsClient = new AppointmentsClient(DateActivity.this);
 
-        button.setEnabled(false);
+        nextButton.setEnabled(false);
 
         executorService.execute(() -> {
             List<AppointmentByDateDTO> appointments = appointmentsClient
@@ -74,11 +72,11 @@ public class DateActivity extends AppCompatActivity {
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDatePicker(button);
+                openDatePicker(nextButton);
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DateActivity.this, HourActivity.class);

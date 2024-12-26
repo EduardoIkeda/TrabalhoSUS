@@ -2,6 +2,7 @@ package com.uneb.appsus.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +21,12 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.uneb.appsus.Client.AppointmentsClient;
 import com.uneb.appsus.DTO.AppointmentDisplayDTO;
+import com.uneb.appsus.Manager.TokenManager;
 import com.uneb.appsus.R;
 import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.enums.AppointmentStatus;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -34,7 +37,9 @@ public class ConsultasActivity extends AppCompatActivity {
     private Button bookingButton;
     private LinearLayout appointmentsContainer;
     private ExecutorService executorService;
-    ImageView imageView;
+    private ImageView imageView;
+    private androidx.appcompat.widget.Toolbar toolbar;
+    private TextView usernameTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,9 +48,11 @@ public class ConsultasActivity extends AppCompatActivity {
 
         bookingButton = findViewById(R.id.bookingButton);
         appointmentsContainer = findViewById(R.id.appointmentContainer);
+        imageView = findViewById(R.id.imageView);
+        toolbar = findViewById(R.id.toolbar);
+        usernameTextView = findViewById(R.id.textViewName);
+
         executorService = Executors.newSingleThreadExecutor();
-        ImageView imageView = findViewById(R.id.imageView);
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
         new ToolbarBuilder(this, toolbar)
                 .withTitle(getString(R.string.app_name))
@@ -54,15 +61,36 @@ public class ConsultasActivity extends AppCompatActivity {
 
         imageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.profile, null));
 
-        appointmentsContainer.removeAllViews();
+        configureBookingButton();
+        configureProfileImage();
 
-        bookingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ConsultasActivity.this, SpecialitiesActivity.class);
-                startActivity(intent);
-            }
-        });
+        usernameTextView.setText(TokenManager.getInstance(this).getUserName());
+
+        fetchAppointments();
+    }
+
+    private void configureProfileImage() {
+
+        String avatarUrl = TokenManager.getInstance(this).getUserAvatarUrl();
+        if (avatarUrl != null && !avatarUrl.isEmpty()) {
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        InputStream inputStream = new java.net.URL(avatarUrl).openStream();
+                        final Drawable drawable = Drawable.createFromStream(inputStream, "src");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageDrawable(drawable);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +99,16 @@ public class ConsultasActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-        fetchAppointments();
+    private void configureBookingButton() {
+        bookingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ConsultasActivity.this, SpecialitiesActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void showBookingDialog(String message, DialogInterface.OnClickListener confirmAction) {
@@ -89,6 +125,7 @@ public class ConsultasActivity extends AppCompatActivity {
     }
     
     private void fetchAppointments() {
+        appointmentsContainer.removeAllViews();
         executorService.execute(new Runnable() {
             @Override
             public void run() {

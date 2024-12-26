@@ -102,15 +102,18 @@ public class AppointmentsClient extends BaseClient {
         return null;
     }
 
-    public Future<AppointmentResult> createAppointment(DoctorAppointment appointment) {
-        appointment.setPatientId(TokenManager.getInstance(context).getUserId());
+    public Future<AppointmentResult> createAppointment(AppointmentDTO appointment) {
+        appointment.setPatientId(Long.parseLong(TokenManager.getInstance(context).getUserId()));
         return executorService.submit(new Callable<AppointmentResult>() {
             @Override
             public AppointmentResult call() {
                 Gson gson = new Gson();
                 String json = gson.toJson(appointment);
                 RequestBody body = RequestBody.create(json, JSON);
-                Request request = putRequest(body, APPOINTMENTS_URL + "/schedule/" + appointment.getId());
+                Request request = patchRequest(body, APPOINTMENTS_URL + "/schedule/" + appointment.getId());
+
+                Log.d("AppointmentsClient", "Creating appointment: " + json);
+                Log.d("AppointmentsClient", "Request: " + request.toString());
 
                 try (Response response = client.newCall(request).execute()) {
                     if (response.isSuccessful() && response.body() != null) {

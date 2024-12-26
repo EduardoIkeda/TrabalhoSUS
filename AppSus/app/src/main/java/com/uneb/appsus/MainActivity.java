@@ -24,6 +24,7 @@ import com.uneb.appsus.Activities.ConsultasActivity;
 import com.uneb.appsus.Activities.RegisterUserActivity;
 import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
+import com.uneb.appsus.DTO.AuthResponseDTO;
 import com.uneb.appsus.Manager.TokenManager;
 import com.uneb.appsus.Utility.ToolbarBuilder;
 import com.uneb.appsus.Utility.Tuple;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         forgotPasswordText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.google.com.br"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.google.com.br")); //TODO: Url para alteração de senha
             startActivity(browserIntent);
             }
         });
@@ -101,14 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
                 executorService.submit(() -> {
                     UserClient userClient = new UserClient(MainActivity.this);
-                    Tuple<String,String> tokenAndUserId = userClient.loginUser(user);
-                    String token = tokenAndUserId.first;
-                    String userId = tokenAndUserId.second;
+                    AuthResponseDTO authResponse = userClient.loginUser(user);
 
                     runOnUiThread(() -> {
-                        if (token != null) {
-                            TokenManager.getInstance(MainActivity.this).setBearerToken(token);
-                            TokenManager.getInstance(MainActivity.this).setUserId(userId);
+                        if (authResponse != null) {
                             Intent intent = new Intent(MainActivity.this, ConsultasActivity.class);
                             startActivity(intent);
                         } else {

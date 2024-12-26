@@ -39,15 +39,18 @@
                 android:gravity="start|center"
                 />
 
-            <LinearLayout
-                android:id="@+id/hoursLayout"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="67dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:fadingEdge="horizontal"
+                android:gravity="center_vertical">
 
-
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/hoursLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"></LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
     </LinearLayout>
 

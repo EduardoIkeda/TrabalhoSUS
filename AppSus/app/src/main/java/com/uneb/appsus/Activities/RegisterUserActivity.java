@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.uneb.appsus.Client.UserClient;
 import com.uneb.appsus.DTO.UserDTO;
+import com.uneb.appsus.DTO.AuthResponseDTO;
 import com.uneb.appsus.Manager.TokenManager;
 import com.uneb.appsus.R;
 import com.uneb.appsus.Utility.ToolbarBuilder;
@@ -106,17 +107,13 @@ public class RegisterUserActivity extends AppCompatActivity {
 
                 executorService.submit(() -> {
                     UserClient userClient = new UserClient(RegisterUserActivity.this);
-                    Tuple<String,String> tokenAndUserId = userClient.registerUser(userDTO);
-                    String token = tokenAndUserId.first;
-                    String userId = tokenAndUserId.second;
+                    AuthResponseDTO authResponse = userClient.registerUser(userDTO);
 
                     runOnUiThread(() -> {
-                        if (token != null) {
-                            TokenManager.getInstance(RegisterUserActivity.this).setBearerToken(token);
-                            TokenManager.getInstance(RegisterUserActivity.this).setUserId(userId);
+                        if (authResponse != null) {
                             Intent intent = new Intent(RegisterUserActivity.this, ConsultasActivity.class);
                             startActivity(intent);
-                        }else{
+                        } else {
                             Toast.makeText(RegisterUserActivity.this, "Algo deu errado no cadastro", Toast.LENGTH_SHORT).show();
                         }
                     });

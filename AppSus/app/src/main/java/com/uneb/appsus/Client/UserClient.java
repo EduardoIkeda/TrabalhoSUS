@@ -4,17 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import com.uneb.appsus.DTO.AppointmentDTO;
+import com.uneb.appsus.DTO.AuthResponseDTO;
 import com.uneb.appsus.DTO.UserDTO;
 import com.uneb.appsus.DTO.UserPartialDTO;
 import com.uneb.appsus.Manager.TokenManager;
-import com.uneb.appsus.Utility.Tuple;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -31,40 +26,47 @@ public class UserClient extends BaseClient {
         super(context);
     }
 
-    public Tuple<String, String> loginUser(UserDTO user) {
+    private AuthResponseDTO handleAuthResponse(Response response) throws IOException {
+        if (response.isSuccessful() && response.body() != null) {
+            String responseBody = response.body().string();
+            Gson gson = new Gson();
+            AuthResponseDTO authResponse = gson.fromJson(responseBody, AuthResponseDTO.class);
+            TokenManager.getInstance(context).setUserInfo(
+                String.valueOf(authResponse.getId()),
+                authResponse.getName(),
+                authResponse.getAvatarUrl(),
+                authResponse.getRole(),
+                authResponse.getToken()
+            );
+            return authResponse;
+        } else {
+            Log.d(TAG, "Auth failed: " + response.message());
+        }
+        return null;
+    }
+
+    public AuthResponseDTO loginUser(UserDTO user) {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         RequestBody body = RequestBody.create(json, JSON);
         Request request = this.postRequest(body, USER_URL + "/login");
 
         try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                String responseBody = response.body().string();
-                JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-                return new Tuple<>(jsonObject.get("token").getAsString(), jsonObject.get("id").getAsString());
-            } else {
-                Log.d(TAG, "Login failed: " + response.message());
-            }
+            return handleAuthResponse(response);
         } catch (IOException e) {
             Log.d(TAG, "Login error: ", e);
         }
         return null;
     }
 
-    public Tuple<String, String> registerUser(UserDTO user) {
+    public AuthResponseDTO registerUser(UserDTO user) {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         RequestBody body = RequestBody.create(json, JSON);
         Request request = this.postRequest(body, USER_URL + "/register");
 
         try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                String responseBody = response.body().string();
-                JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-                return new Tuple<>(jsonObject.get("token").getAsString(), jsonObject.get("id").getAsString());
-            } else {
-                Log.d(TAG, "Registration failed: " + response.message());
-            }
+            return handleAuthResponse(response);
         } catch (IOException e) {
             Log.d(TAG, "Registration error: ", e);
         }

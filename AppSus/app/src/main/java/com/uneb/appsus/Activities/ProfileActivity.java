@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         new ToolbarBuilder(this, toolbar)
                 .withTitle(getString(R.string.app_name))
                 .withReturnButton()
-                //.withBurgerButton(SettingsActivity.class))
+                .withBurgerButton(SettingsActivity.class)
                 .build();
 
         buttonConfirm = findViewById(R.id.buttonConfirm);

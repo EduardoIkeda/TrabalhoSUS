@@ -50,11 +50,11 @@ public class HourActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_horario);
-
         LinearLayout layout = findViewById(R.id.linearLayout);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+
         executorService = Executors.newSingleThreadExecutor();
         appointmentsClient = new AppointmentsClient(HourActivity.this);
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
         new ToolbarBuilder(this, toolbar)
                 .withTitle(getString(R.string.agendamento))
@@ -92,7 +92,7 @@ public class HourActivity extends AppCompatActivity {
             LinearLayout hoursLayout = view.findViewById(R.id.hoursLayout);
 
             for (DoctorAppointment doctorAppointment : doctorAppointments) {
-                doctorTextView.setText(String.format("Dr. %s", doctorAppointment.getDoctorName()));
+                doctorTextView.setText(doctorAppointment.getDoctorName());
                 String time = doctorAppointment.getTime();
 
                 if (!isDoctorTimeValid(doctorDTO, time)) {

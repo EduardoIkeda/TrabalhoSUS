@@ -10,6 +10,11 @@ public class DoctorAppointment implements Serializable {
     private String specialtyName;
     private boolean isTomorrow;
     private boolean isFinalized;
+    private String appointmentStatus;
+    private Integer healthCenterId;
+    private Integer specialtyId;
+    private String healthCenterName;
+    private String healthCenterAddress;
 
     public boolean isFinalized() {
         return isFinalized;
@@ -70,5 +75,45 @@ public class DoctorAppointment implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getAppointmentStatus() {
+        return appointmentStatus;
+    }
+
+    public void setAppointmentStatus(String appointmentStatus) {
+        this.appointmentStatus = appointmentStatus;
+    }
+
+    public Integer getHealthCenterId() {
+        return healthCenterId;
+    }
+
+    public void setHealthCenterId(Integer healthCenterId) {
+        this.healthCenterId = healthCenterId;
+    }
+
+    public Integer getSpecialtyId() {
+        return specialtyId;
+    }
+
+    public void setSpecialtyId(Integer specialtyId) {
+        this.specialtyId = specialtyId;
+    }
+
+    public String getHealthCenterName() {
+        return healthCenterName;
+    }
+
+    public void setHealthCenterName(String healthCenterName) {
+        this.healthCenterName = healthCenterName;
+    }
+
+    public String getHealthCenterAddress() {
+        return healthCenterAddress;
+    }
+
+    public void setHealthCenterAddress(String healthCenterAddress) {
+        this.healthCenterAddress = healthCenterAddress;
     }
 }
