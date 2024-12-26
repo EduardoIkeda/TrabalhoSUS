@@ -1,5 +1,7 @@
 package com.uneb.appsus.Utility;
 
+import androidx.activity.OnBackPressedCallback;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
@@ -8,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
@@ -16,6 +19,7 @@ import com.uneb.appsus.R;
 public class ToolbarBuilder {
     private final Activity activity;
     private final Toolbar toolbar;
+    private boolean hasReturnButton = false;
 
     public ToolbarBuilder(Activity activity, Toolbar toolbar) {
         this.activity = activity;
@@ -41,6 +45,7 @@ public class ToolbarBuilder {
                 }
             });
         }
+        hasReturnButton = true;
         return this;
     }
 
@@ -65,6 +70,15 @@ public class ToolbarBuilder {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 activity.getWindow().setStatusBarColor(ContextCompat.getColor(activity, R.color.dark_blue));
+            }
+
+            if (!hasReturnButton) {
+                ((AppCompatActivity) activity).getOnBackPressedDispatcher().addCallback((AppCompatActivity) activity, new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // Do nothing, block back press
+                    }
+                });
             }
         }
     }

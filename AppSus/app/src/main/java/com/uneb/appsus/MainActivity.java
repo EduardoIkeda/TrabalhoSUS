@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
+    protected TextView forgotPasswordText;
     protected EditText susNumberText;
     protected EditText passwordText;
     protected Button registerButton;
@@ -48,8 +49,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
         executorService = Executors.newSingleThreadExecutor();
+        forgotPasswordText = findViewById(R.id.textViewForgotPassword);
         registerButton = findViewById(R.id.buttonRegister);
+        susNumberText = findViewById(R.id.editTextNumeroCartaoSus);
+        passwordText = findViewById(R.id.editTextPassword);
+        loginButton = findViewById(R.id.buttonLogin);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -57,7 +63,22 @@ public class MainActivity extends AppCompatActivity {
                 .withTitle(getString(R.string.app_name))
                 .build();
 
-        
+        configureForgotPassword();
+        configureRegisterButton();
+        configureLoginButton();
+    }
+
+    private void configureForgotPassword() {
+        forgotPasswordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.google.com.br"));
+            startActivity(browserIntent);
+            }
+        });
+    }
+
+    private void configureRegisterButton() {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,13 +86,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-        loginButton = findViewById(R.id.buttonLogin);
+    private void configureLoginButton() {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                susNumberText = findViewById(R.id.editTextNumeroCartaoSus);
-                passwordText = findViewById(R.id.editTextPassword);
                 String susNumber = susNumberText.getText().toString();
                 String password = passwordText.getText().toString();
 

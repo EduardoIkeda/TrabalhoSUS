@@ -49,7 +49,7 @@ public class ConsultasActivity extends AppCompatActivity {
 
         new ToolbarBuilder(this, toolbar)
                 .withTitle(getString(R.string.app_name))
-                //.withBurgerButton(SettingsActivity.class))
+                .withBurgerButton(SettingsActivity.class)
                 .build();
 
         imageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.profile, null));
@@ -78,8 +78,8 @@ public class ConsultasActivity extends AppCompatActivity {
     private void showBookingDialog(String message, DialogInterface.OnClickListener confirmAction) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(message)
-               .setPositiveButton("Confirmar", confirmAction)
-               .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.confirmar), confirmAction)
+                .setNegativeButton(getString(R.string.cancelar), new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        dialog.dismiss();
                    }
@@ -110,9 +110,8 @@ public class ConsultasActivity extends AppCompatActivity {
             return;
         }
         appointmentsContainer.removeAllViews();
-        Log.d("ConsultaRetornada", "Appointments size: " + appointments.size());
+
         for (AppointmentDisplayDTO appointment : appointments) {
-            Log.d("ConsultaRetornada", "Specialty: " + appointment.getSpecialtyName());
             View appointmentView = inflater.inflate(R.layout.component_consulta, appointmentsContainer, false);
 
             TextView textViewSpecialty = appointmentView.findViewById(R.id.textViewSpecialty);
@@ -175,20 +174,6 @@ public class ConsultasActivity extends AppCompatActivity {
             }
         });
     }
-
-
-    // bookingButton.setOnClickListener(new View.OnClickListener() {
-    //     @Override
-    //     public void onClick(View view) {
-    //         showBookingDialog("Deseja agendar uma nova consulta?", new DialogInterface.OnClickListener() {
-    //             @Override
-    //             public void onClick(DialogInterface dialog, int id) {
-    //                 Intent intent = new Intent(ConsultasActivity.this, SpecialitiesActivity.class);
-    //                 startActivity(intent);
-    //             }
-    //         });
-    //     }
-    // });
 
     private boolean isAppointmentCanceledOrMissed(AppointmentDisplayDTO appointment) {
         return Objects.equals(appointment.getAppointmentStatus(), AppointmentStatus.CANCELED.getValue()) ||

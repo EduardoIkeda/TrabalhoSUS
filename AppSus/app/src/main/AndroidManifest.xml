@@ -32,6 +32,7 @@
         <activity android:name=".Activities.AppointmentConfirmationActivity"></activity>
         <activity android:name=".Activities.DateActivity"></activity>
         <activity android:name=".Activities.ProfileActivity"></activity>
+        <activity android:name=".Activities.SettingsActivity"></activity>
 
     </application>
 

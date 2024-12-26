@@ -41,4 +41,10 @@ public class TokenManager {
     public String getUserId() {
         return sharedPreferences.getString(USER_ID_KEY, null);
     }
+
+    public void clearToken() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(TOKEN_KEY);
+        editor.apply();
+    }
 }

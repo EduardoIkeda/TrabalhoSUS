@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Aplicativo SUS</string>
 
@@ -7,7 +8,7 @@
     <string name="agendar">Agendar</string>
     <string name="voltar_inicio">Voltar ao início</string>
     <string name="confirmar">Confirmar</string>
-    
+
     <!-- Cadastro / Login -->
     <string name="nome">Nome</string>
     <string name="numero_cartao_sus">Número do cartão SUS</string>
@@ -34,7 +35,7 @@
     <!-- Mensagens -->
     <string name="consulta_agendada_sucesso">Consulta agendada com sucesso!</string>
     <string name="consulta_cancelada_sucesso">Consulta cancelada com sucesso!</string>
-    
+
     <string name="consulta_cancelada_erro">Erro ao cancelar consulta!</string>
     <string name="consulta_agendada_erro">Erro ao agendar consulta!</string>
 
@@ -72,8 +73,8 @@
     <string name="configuracoes">Configurações</string>
     <string name="sair_da_conta">Sair da conta</string>
     <string name="deseja_realmente_sair_da_conta">Deseja realmente sair da conta?</string>
-    <string name="habilitar_notificacoes">Habilitar Notificações</string>
     <string name="idioma">Idioma</string>
+    <string name="habilitar_notificacoes">Habilitar Notificações</string>
     <string name="notificacoes_ativadas">Notificações Ativadas</string>
     <string name="notificacoes_desativadas">Notificações Desativadas</string>
 
