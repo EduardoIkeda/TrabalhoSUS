@@ -41,10 +41,12 @@ public class DateActivity extends AppCompatActivity {
         setContentView(com.uneb.appsus.R.layout.activity_date);
 
         Button button = findViewById(R.id.nextButton);
+
         TextView dateText = findViewById(R.id.dateTextView);
-        Button datebutton = findViewById(R.id.dateButton);
+        Button dateButton = findViewById(R.id.dateButton);
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
+        // Configurar Toolbar
         new ToolbarBuilder(this, toolbar)
                 .withTitle(getString(R.string.agendamento))
                 .withReturnButton()
@@ -55,6 +57,8 @@ public class DateActivity extends AppCompatActivity {
 
         executorService = Executors.newSingleThreadExecutor();
         appointmentsClient = new AppointmentsClient(DateActivity.this);
+
+        button.setEnabled(false);
 
         executorService.execute(() -> {
             List<AppointmentByDateDTO> appointments = appointmentsClient
@@ -67,10 +71,10 @@ public class DateActivity extends AppCompatActivity {
             }
         });
 
-        datebutton.setOnClickListener(new View.OnClickListener() {
+        dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDatePicker();
+                openDatePicker(button);
             }
         });
 
@@ -87,7 +91,7 @@ public class DateActivity extends AppCompatActivity {
         });
     }
 
-    private void openDatePicker() {
+    private void openDatePicker(Button button) {
         TextView textView = findViewById(R.id.dateTextView);
 
         Calendar calendar = Calendar.getInstance();
@@ -99,8 +103,14 @@ public class DateActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 String date = dateFormat.format(selectedDate.getTime());
                 textView.setText(date);
-                if(!isDateAvailable(date)) {
-                    Toast.makeText(DateActivity.this, "Data não disponível" + date, Toast.LENGTH_SHORT).show();
+
+                // Verificar disponibilidade da data
+                if (isDateAvailable(date)) {
+                    button.setEnabled(true); // Habilita o botão se a data for válida
+                    Toast.makeText(DateActivity.this, "Data disponível: " + date, Toast.LENGTH_SHORT).show();
+                } else {
+                    button.setEnabled(false); // Desabilita o botão se a data não for válida
+                    Toast.makeText(DateActivity.this, "Data não disponível: " + date, Toast.LENGTH_SHORT).show();
                 }
             }
         },
@@ -109,7 +119,6 @@ public class DateActivity extends AppCompatActivity {
                 calendar.get(Calendar.DAY_OF_MONTH));
 
         datepicker.getDatePicker().setMinDate(System.currentTimeMillis());
-
         datepicker.show();
     }
 
